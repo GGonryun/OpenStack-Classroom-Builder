@@ -1,0 +1,38 @@
+# The version number is used for backwards compatibility.
+Version: 1
+# The domain and project set the scope of the project.
+Domain: Project
+Project: San Diego
+      
+Network:
+    # Replace name and External Network. This network will be created
+    # and then attached to the external network.
+    NetworkNickname: <External Network Name> 
+Users:
+    # Providing a path with user data in CSV rows will create new users.
+    # the file must exist, please use absolute paths to your file: /root/some_file.csv
+    # optionally, an argument can be used to select the user path.
+    Roster: 
+      # Each line is a csv of a student.
+      - LastName,FirstName,UserName
+      
+Administrators:
+    # The administrators should already have accounts.
+    - jsmith
+    - vdale
+    - mbanks
+VMs:
+    # The nickname for the VM settings block, eg. Kali Linux 
+    <Name>:
+        # The format property is used to set the name of each VM using a format. 
+        # Format's offer variables for expansion:
+        # 
+        # ${VM_NAME} = The nickname used for the VM.
+        # ${USER_NAME} = The current user whose about used for the VM.
+        Format: ${VM_NAME}-${USER_NAME}
+        # The image should already exist on openstack
+        Image: Image/Snapshot name
+        # The flavor should already exist on openstack
+        Flavor: Large
+        # The network should be created or should already exist.
+        Network: SandBoxLAN

@@ -1,0 +1,96 @@
+{
+  "Version": 1,
+  "Domain": "Tutorial",
+  "Project": "San Diego",
+  "Network": {
+    "SanDiegoLAN": "ISP Provider"
+  },
+  "Users": {
+    "Roster": [
+      {
+        "FirstName": "Schmid",
+        "LastName": "Robert",
+        "UserName": "roberts-10"
+      },
+      {
+        "FirstName": "Athawale",
+        "LastName": "Amol",
+        "UserName": "aathawale"
+      },
+      {
+        "FirstName": "Ayersman",
+        "LastName": "Sean",
+        "UserName": "sayersman"
+      },
+      {
+        "FirstName": "Brown",
+        "LastName": "Curtis",
+        "UserName": "curtisbrown"
+      },
+      {
+        "FirstName": "Fiorella",
+        "LastName": "Nicholas",
+        "UserName": "nfiorella"
+      },
+      {
+        "FirstName": "Kelch",
+        "LastName": "Thomas",
+        "UserName": "tkelch"
+      },
+      {
+        "FirstName": "Lopez",
+        "LastName": "Samuel",
+        "UserName": "samuellopez"
+      },
+      {
+        "FirstName": "Millet",
+        "LastName": "Angel",
+        "UserName": "amillet"
+      },
+      {
+        "FirstName": "Misleh",
+        "LastName": "Nicholas",
+        "UserName": "nmisleh"
+      },
+      {
+        "FirstName": "Pahang",
+        "LastName": "Peyvand",
+        "UserName": "ppahang"
+      },
+      {
+        "FirstName": "Pulido",
+        "LastName": "Dee",
+        "UserName": "dpulido"
+      },
+      {
+        "FirstName": "Ralston",
+        "LastName": "Adam",
+        "UserName": "aralston"
+      },
+      {
+        "FirstName": "Sugg",
+        "LastName": "Benjamin",
+        "UserName": "bsugg"
+      },
+      {
+        "FirstName": "Wilson",
+        "LastName": "Redith",
+        "UserName": "redithwilson"
+      }
+    ]
+  },
+  "VMs": {
+    "Kali": {
+      "Format": "${IMAGE_NAME}-${USER_NAME}",
+      "Image": "Kali-9_1-update",
+      "Flavor": "Large",
+      "Network": "SandBoxLAN"
+    },
+    "Metasploitable 2": {
+      "Prefix": "Meta2-",
+      "Image": "Metasploitable 2 image name/id",
+      "Flavor": "Small",
+      "Network": "SandBoxLAN"
+    }
+  }
+}
