@@ -1,0 +1,148 @@
+{
+  "Version": 1,
+  "Domain": {
+    "Name": "Capstone"
+  },
+  "Project": {
+    "Name": "San Diego"
+  },
+  "Networks": [
+    {
+      "Name": "HK-BUSINESS-Subnet",
+      "Provider": "ISP Provider",
+      "Type": "External"
+    },
+    {
+      "Name": "HK-WEBSITE-Subnet",
+      "Provider": "HK-BUSINESS-Subnet",
+      "Type": "Internal"
+    }
+  ],
+  "Students": [
+    {
+      "FirstName": "Schmid",
+      "LastName": "Robert",
+      "Username": "roberts-10"
+    },
+    {
+      "FirstName": "Athawale",
+      "LastName": "Amol",
+      "UserName": "aathawale"
+    },
+    {
+      "FirstName": "Ayersman",
+      "LastName": "Sean",
+      "UserName": "sayersman"
+    },
+    {
+      "FirstName": "Brown",
+      "LastName": "Curtis",
+      "UserName": "curtisbrown"
+    },
+    {
+      "FirstName": "Fiorella",
+      "LastName": "Nicholas",
+      "UserName": "nfiorella"
+    },
+    {
+      "FirstName": "Kelch",
+      "LastName": "Thomas",
+      "UserName": "tkelch"
+    },
+    {
+      "FirstName": "Lopez",
+      "LastName": "Samuel",
+      "UserName": "samuellopez"
+    },
+    {
+      "FirstName": "Millet",
+      "LastName": "Angel",
+      "UserName": "amillet"
+    },
+    {
+      "FirstName": "Misleh",
+      "LastName": "Nicholas",
+      "UserName": "nmisleh"
+    },
+    {
+      "FirstName": "Pahang",
+      "LastName": "Peyvand",
+      "UserName": "ppahang"
+    },
+    {
+      "FirstName": "Pulido",
+      "LastName": "Dee",
+      "UserName": "dpulido"
+    },
+    {
+      "FirstName": "Ralston",
+      "LastName": "Adam",
+      "UserName": "aralston"
+    },
+    {
+      "FirstName": "Sugg",
+      "LastName": "Benjamin",
+      "UserName": "bsugg"
+    },
+    {
+      "FirstName": "Wilson",
+      "LastName": "Redith",
+      "UserName": "redithwilson"
+    }
+  ],
+  "Machines": {
+    "PerProject": [
+      {
+        "Name": "Windows 10 Pro",
+        "Instances": "4",
+        "Flavor": "Windows-10-pro",
+        "Image": "Large",
+        "Network": "HK-BUSINESS-Subnet"
+      },
+      {
+        "Name": "CentOS 7",
+        "Instances": "2",
+        "Flavor": "CentOS 7",
+        "Image": "Medium",
+        "Network": "HK-BUSINESS-Subnet"
+      },
+      {
+        "Name": "Ubuntu 20",
+        "Instances": "2",
+        "Flavor": "Ubuntu 20",
+        "Image": "Medium",
+        "Network": "HK-BUSINESS-Subnet"
+      },
+      {
+        "Name": "CentOS 7 Server",
+        "Instances": "4",
+        "Flavor": "CentOS 7",
+        "Image": "Large",
+        "Network": "HK-BUSINESS-Subnet"
+      },
+      {
+        "Name": "Windows server 2016",
+        "Instances": "2",
+        "Flavor": "WindowsServer2016-Cloud",
+        "Image": "X-Large",
+        "Network": "HK-BUSINESS-Subnet"
+      },
+      {
+        "Name": "CentOS 7 Server",
+        "Instances": "4",
+        "Flavor": "CentOS 7",
+        "Image": "Large",
+        "Network": "HK-WEBSITE-Subnet"
+      }
+    ],
+    "PerUser": [
+      {
+        "Name": "CentOS 7 Server",
+        "Instances": "4",
+        "Flavor": "CentOS 7",
+        "Image": "Large",
+        "Network": "HK-WEBSITE-Subnet"
+      }
+    ]
+  }
+}

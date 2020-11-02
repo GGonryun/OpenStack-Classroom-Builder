@@ -1,6 +1,6 @@
 ## Tasks Remaining:
 - [x] A python module that can parse a **.classroom** file into a **ledger**.
-- [] A python module that can execute a **ledger**.
+- [x] A python module that can execute a **ledger**.
 - [] A python module that can parse a **ledger** file into a **.receipt** file.
 - [] A python module that can create OpenStack _Domains_ 
 - [] A python module that can create OpenStack _Projects_
