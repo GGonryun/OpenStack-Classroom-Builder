@@ -1,9 +1,6 @@
-## Tasks Remaining:
-- [x] A python module that can parse a **.classroom** file into a **ledger**.
-- [x] A python module that can execute a **ledger**.
-- [] A python module that can parse a **ledger** file into a **.receipt** file.
-- [] A python module that can create OpenStack _Domains_ 
-- [] A python module that can create OpenStack _Projects_
-- [] A python module that can create OpenStack _Networks_
-- [x] A python module that can create OpenStack _VMS_
-- [x] A python module for OpenStack _Identity Services_ (Roles, Groups, Users).
+# Classroom Builder
+1. Prepare your classroom using the template found in `files` named tutorial.classroom.yaml.
+2. Each classroom should be isolated, and should not share resources with another classroom file.
+3. TODO: Run the command `make validate ./path/to/your/classroom.yaml` to validate your yaml file before creating your classroom.
+4. Run the command `make classroom ./path/to/your/classroom.yaml`, without a path specified, it will deploy the test classroom.
+5. All steps are idempotent except the final virtual machine step, if you re-run the same classroom script you will always receive a new set of machines, but will always use existing users, networks, and projects.

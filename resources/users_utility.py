@@ -1,6 +1,9 @@
 from keystoneauth1.identity import v3
 from keystoneauth1 import session
 from keystoneclient.v3 import client as k_client
+from novaclient import client as n_client
+from neutronclient.v2_0 import client as e_client
+from glanceclient.v2 import client as g_client
 import string
 import random
 import sys
@@ -26,6 +29,7 @@ OS_PROJECT = 'OS_PROJECT_NAME'
 OS_PROJECT_DOMAIN = 'OS_PROJECT_DOMAIN_NAME'
 OS_AUTH_URL = 'OS_AUTH_URL'
 OS_USER_DOMAIN = 'OS_USER_DOMAIN_NAME'
+NOVA_API_VERSION = 2
 
 
 def env(name):
@@ -37,22 +41,90 @@ def env(name):
     else:
         raise Exception('{} does not exist as an environment variable', format(name))
 
-
+keystone_session = None
 def create_keystone_client():
     '''
     Utility function that creates an authenticated keystone client.
     Uses environment variables.
     '''
-    auth = v3.Password(auth_url=env(OS_AUTH_URL),
-                       username=env(OS_USERNAME),
-                       password=env(OS_PASSWORD),
-                       project_name=env(OS_PROJECT),
-                       user_domain_name=env(OS_USER_DOMAIN),
-                       project_domain_name=env(OS_PROJECT_DOMAIN))
+    global keystone_session
+    if keystone_session == None:
+        auth = v3.Password(auth_url=env(OS_AUTH_URL),
+                        username=env(OS_USERNAME),
+                        password=env(OS_PASSWORD),
+                        project_name=env(OS_PROJECT),
+                        user_domain_name=env(OS_USER_DOMAIN),
+                        project_domain_name=env(OS_PROJECT_DOMAIN))
 
-    sess = session.Session(auth=auth)
-    keystone = k_client.Client(session=sess)
+        keystone_session = session.Session(auth=auth)
+
+    keystone = k_client.Client(session=keystone_session)
     return keystone
+
+
+nova_session = {}
+def create_nova_client(username, password, domain, project):
+    '''
+    The nova client operates on VM's specific to a users account.
+    Uses environment variables.
+    '''
+    global nova_session
+    print('create_nova_client(username, password, domain, project)', username, password, domain, project)
+    username = username if username else env(OS_USERNAME)
+    password = password if password else env(OS_PASSWORD)
+    key = username + domain + project
+    if(key not in nova_session):
+        auth = v3.Password(auth_url=env(OS_AUTH_URL),
+                        username=username,
+                        password=password,
+                        project_name=project,
+                        user_domain_name=domain,
+                        project_domain_name=domain)
+        nova_session[key] = session.Session(auth=auth)
+
+    return n_client.Client(NOVA_API_VERSION, session=nova_session[key])
+
+
+neutron_session = {}
+def create_neutron_client(domain, project):
+    '''
+    The neutron client operates at the project-level and uses 
+    environment variables for an admin account.
+    You must first add the admin account before modifying 
+    a project's network resources.
+    '''
+    global neutron_session
+    key = domain + project
+    if(key not in neutron_session):
+        auth = v3.Password(auth_url=env(OS_AUTH_URL),
+                        username=env(OS_USERNAME),
+                        password=env(OS_PASSWORD),
+                        project_name=project,
+                        user_domain_name=domain,
+                        project_domain_name=domain)
+        neutron_session[key] = session.Session(auth=auth)
+
+    return e_client.Client(session=neutron_session[key])
+
+
+glance_session = None
+def create_glance_client():
+    '''
+    The neutron client operates at the project-level and uses 
+    environment variables for an admin account.
+    You must first add the admin account before modifying 
+    a project's network resources.
+    '''
+    global glance_session
+    if(glance_session == None):
+        auth = v3.Password(auth_url=env(OS_AUTH_URL),
+                        username=env(OS_USERNAME),
+                        password=env(OS_PASSWORD),
+                        project_name=env(OS_PROJECT),
+                        user_domain_name=env(OS_USER_DOMAIN),
+                        project_domain_name=env(OS_USER_DOMAIN))
+        glance_session = session.Session(auth=auth)
+    return g_client.Client(session=glance_session)
 
 
 def get_user(username):
@@ -104,9 +176,15 @@ def get_a_projectID(name):
 
 
 def get_a_project(project_name):
-    keystone = create_keystone_client()
-    project = keystone.projects.get(project_name)
-    return project
+    print("\tget_a_project(project_name): {}".format(project_name))
+    try:
+        keystone = create_keystone_client()
+        projects = list(filter(lambda p : p.name == project_name, keystone.projects.list()))
+        numProjects = len(projects)
+        return projects[0]
+    except Exception as ex:
+        print("unable to find project: {}, {}".format(ex, project_name))
+        return None
 
 
 def add_user_to_project(role, project_id, user):
@@ -197,6 +275,7 @@ def generate_hash(salt, password):
     derived_key = pbkdf2_hmac('sha512', password, salt, 500)
     new_password = binascii.hexlify(derived_key)[0:9]
     return new_password
+
 
 def generate_user_password(username):
     '''
