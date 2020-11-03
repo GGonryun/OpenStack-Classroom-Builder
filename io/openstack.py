@@ -30,9 +30,23 @@ def env(name):
 # user = { username, password }
 # machine = { name, instances, image_id, flavor_id, network_id }
 
-def get_domain(domain):
 def get_project(project):
 def get_student(domain, project, user):
+
+def get_domain(domain):
+  try:
+    client = get_keystone_client(env(OS_USERNAME), env(OS_AUTH_URL), env(OS_PROJECT), env(OS_USER_DOMAIN))
+    
+    domains = client.domains.list(domain_id=domain)
+    numDomains = len(domains)
+
+    if(numDomains == 0):
+      return client.domains.create(domain, enabled=true)
+    else:
+      return domains[0]
+
+  except Exception ex:
+    pprint.pprint("an error has occured getting the domain, {}, {}", ex, domain)
 
 def get_network(domain, project, user, network):
   try:
@@ -40,7 +54,7 @@ def get_network(domain, project, user, network):
     network = client.create_network({'network': {'name': network[NAME_KEY], 'admin_state_up': True, 'router:external': network[EXTERNAL_KEY]}})
     return network.id
   except Exception ex:
-      pprint.pprint("an error occured creating a network, {}, {}, {}, {}, {}", ex, domain, project, user, network)
+      pprint.pprint("an error occured getting the network, {}, {}, {}, {}, {}", ex, domain, project, user, network)
 
 def create_machine(domain, project, user, machine):
     try:
