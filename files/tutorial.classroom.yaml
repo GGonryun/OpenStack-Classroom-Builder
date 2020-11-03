@@ -1,5 +1,5 @@
 # The version number is used for backwards compatibility.
-Version: 1
+Version: 1.1
 # The domain and project set the scope of this script. 
 Domain: 
   Name: <String>
@@ -13,6 +13,8 @@ Network:
   # The name of another network to use as our provider network.
     Provider: <External Network Name> 
     Type: <External|Internal>
+    # CIDR Format for the subnet to attach to the network
+    Subnet: <CIDR>
 
 # Each line is a csv of a student.
 Students:
@@ -20,5 +22,6 @@ Students:
   - Campos,Miguel,mcampos
 # Each line is a csv of a VM.
 Machines:
-  - <Name>,<Instances>,<Image>,<Flavor>,<Network>
-  - Test,1,CirrOS,Small,Internet Service Network
+  PerProject:
+    - <Name>,<Instances>,<Image>,<Flavor>,<Network>
+    - Test,1,CirrOS,Small,External_Network

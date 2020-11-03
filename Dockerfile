@@ -14,6 +14,8 @@ RUN apt-get upgrade -y  # updates packages
 # installs system tools
 RUN apt-get install -y bzip2 gcc git htop screen vim wget
 RUN apt-get upgrade -y bash  # upgrades bash if necessary
+RUN apt update && apt upgrade -y
+
 RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O Miniconda.sh
 RUN bash Miniconda.sh -b
 ENV PATH="/root/miniconda3/bin:${PATH}"

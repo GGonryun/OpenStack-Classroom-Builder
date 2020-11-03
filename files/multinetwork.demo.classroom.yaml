@@ -1,0 +1,22 @@
+Version: 1.1
+Project:
+  Name: Test
+Networks:
+  - Name: Test1
+    Provider: Cloud-Provider
+    External: True
+    Subnet: 10.10.1.0/24
+  - Name: Test2
+    Provider: Cloud-Provider
+    External: True
+    Subnet: 10.10.2.0/24
+Students:
+  - Test1,Test1,Test1
+  - Test2,Test2,Test2
+Machines:
+  PerProject:
+    - Centos-Test1,2,CentOS 7,large,Test1
+    - Centos-Test2,2,CentOS 7,large,Test2
+    - WindowsCloudWithPassword-Test1,1,WindowsServer2016,xhuge,Test1
+    - WindowsCloudWithPassword-Test2,1,WindowsServer2016,xhuge,Test2
+
