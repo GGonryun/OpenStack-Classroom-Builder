@@ -1,6 +1,7 @@
 import argparse
 import create_subnet
 import create_router
+import users_utility
 
 NAME = 'Name'
 CIDR = 'CIDR'
@@ -30,7 +31,7 @@ def create_network(domain, project, name, is_external):
   '''
   print('\tcreate_network(domain, project, name, is_external)'.format(domain, project, name, is_external))
   try:
-    client = get_neutron_client(domain, project)
+    client = users_utility.get_neutron_client(domain, project)
     # find network:
     all_networks = client.list_networks()
     networks = list(filter(lambda a : a['name'] == name, all_networks))
