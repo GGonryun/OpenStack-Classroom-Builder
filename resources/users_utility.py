@@ -142,11 +142,9 @@ def get_a_project(project_name):
     print("\tget_a_project(project_name): {}".format(project_name))
     try:
         keystone = create_keystone_client()
-        projz = keystone.projects.list()
-        projects = filter(lambda p : p.name == project_name, projz)
+        projects = filter(lambda p : p.name == project_name, keystone.projects.list())
         numProjects = len(projects)
-        print("projects found: {}".format(projects))
-        return projects[1]
+        return projects[0]
     except Exception as ex:
         print("unable to find project: {}, {}".format(ex, project_name))
         return None
