@@ -25,6 +25,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.id:
-        create_domain(args.id)
+        print(create_domain(args.id))
     else:
         raise Exception('create_domain.py usage: --id <domain_id>')
