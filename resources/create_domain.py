@@ -16,7 +16,7 @@ def create_domain(domain_id):
       return client.domains.create(domain_id, enabled=true)
     elif(numDomains == 1):
       return domains[0]
-    else 
+    else:
       return None
 
   except Exception ex:
