@@ -73,7 +73,7 @@ def create_nova_client(username, password, project, domain):
     return n_client.Client(NOVA_API_VERSION, session=sess)
 
 
-def create_neutron_client(project, domain):
+def create_neutron_client(domain, project):
     '''
     The neutron client operates at the project-level and uses 
     environment variables for an admin account.
