@@ -141,7 +141,7 @@ def get_a_projectID(name):
 def get_a_project(project_name):
     try:
         keystone = create_keystone_client()
-        project = keystone.projects.get(project_name)
+        project = keystone.projects.get(name=project_name)
         return project
     except:
         print("unable to find project: {}".format(project_name))
