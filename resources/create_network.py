@@ -10,6 +10,7 @@ EXTERNAL = 'External'
 
 def create_linked_network(domain, project, networks):
   ln = []
+  print('operating on networks: {}'.format(networks))
   for network in networks:
     print('operating on network: {}'.format(network))
     external = network[EXTERNAL] if network[EXTERNAL] != None else False
