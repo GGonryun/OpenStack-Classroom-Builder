@@ -139,9 +139,12 @@ def get_a_projectID(name):
 
 
 def get_a_project(project_name):
+    print("\tget_a_project(project_name): {}".format(project_name))
     try:
         keystone = create_keystone_client()
-        projects = keystone.projects.list()
+        projz = keystone.projects.list()
+        print("projz found: {}".format(projz))
+        projects = filter(lambda p : p.name == project_name, projz)
         numProjects = len(projects)
         print("projects found: {}".format(projects))
 
