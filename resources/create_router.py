@@ -10,7 +10,7 @@ def create_router(domain, project, name, network_id, subnet_id, ip_address):
   '''
   print('\tcreate_router(domain, project, name, network_id, subnet_id, ip_address): {}, {}, {}, {}, {}, {}'.format(domain, project, name, network_id, subnet_id, ip_address))
   try:
-    client = users_utility.get_neutron_client(domain, project)
+    client = users_utility.create_neutron_client(domain, project)
     external_fixed_ips = [{'ip_address': ip_address, 'subnet_id': subnet_id}]
     external_gateway_info = { 'network_id': network_id, 'enable_snat': True, 'external_fixed_ips': external_fixed_ips}
     network = client.create_router({'router': {'name': name, 'admin_state_up': True, 'external_gateway_info': external_gateway_info}})
