@@ -69,8 +69,8 @@ def create_nova_client(username, password, project, domain):
                       project_name=project,
                       user_domain_name=domain,
                       project_domain_name=domain)
-    session = session.Session(auth=auth)
-    return n_client.Client(NOVA_API_VERSION, session=session)
+    sess = session.Session(auth=auth)
+    return n_client.Client(NOVA_API_VERSION, session=sess)
 
 
 def create_neutron_client(project, domain):
@@ -86,8 +86,8 @@ def create_neutron_client(project, domain):
                       project_name=project,
                       user_domain_name=domain,
                       project_domain_name=domain)
-    session = session.Session(auth=auth)
-    return e_client.Client(session=session)
+    sess = session.Session(auth=auth)
+    return e_client.Client(session=sess)
 
 
 def get_user(username):
