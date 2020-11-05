@@ -42,7 +42,7 @@ CLASSROOM_FILE = sys.argv[1]
 ledger = {}
 def start():
   # Meat & Substance: This function is the "main" function of the file, it creates vm's for users from a csv file.
-  classroom = read_yaml(CLASSROOM_FILE)
+  [classroom, _] = read_yaml(CLASSROOM_FILE)
   projects = classroom.Project
   ledger[DOMAIN] = create_domain.create_domain('default')
   ledger[PROJECT] = create_project.create_project(projects, ADMIN, ADMIN)
