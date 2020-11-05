@@ -1,6 +1,7 @@
 get:
 	git reset --hard HEAD
 	git pull
+	
 send:
 	git add .
 	git commit -m "$(M)"
