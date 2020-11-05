@@ -139,9 +139,13 @@ def get_a_projectID(name):
 
 
 def get_a_project(project_name):
-    keystone = create_keystone_client()
-    project = keystone.projects.get(project_name)
-    return project
+    try:
+        keystone = create_keystone_client()
+        project = keystone.projects.get(project_name)
+        return project
+    except:
+        print("unable to find project: {}".format(project_name))
+        return None
 
 
 def add_user_to_project(role, project_id, user):
