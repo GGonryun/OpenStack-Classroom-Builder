@@ -27,12 +27,16 @@ def create_project(project_name, username, user_role):
     keystone = users_utility.create_keystone_client()
     project_name = project_name
     # Do a quick check if project exists
-    project_id = users_utility.get_a_projectID(project_name)
+    project = users_utility.get_a_project(project_name)
+    project_id = project.id if project != None else None
+
     if project_id:
         print('Project with name: ' + project_name + ' and id: ' + project_id + ' already exists. ...Continuing Script...')
     else:
         print("...Creating Project...")
-        project_id = keystone.projects.create(project_name, 'default').id
+        project = keystone.projects.create(project_name, 'default')
+        project_id = project.id
+
     # check if role exists and create it if it doesn't
     role = users_utility.get_role(user_role)
     if role:
@@ -51,12 +55,7 @@ def create_project(project_name, username, user_role):
         users_utility.create_single_user(username, user_password, project_id, role)
         print("...Adding user to project ...")
 
-    if project_id and role and user:
-        created_project['project-name'] = project_name
-        created_project['role'] = user_role
-        created_project['username'] = username
-        created_project['password'] = users_utility.generate_user_password(username)
-        pprint.pprint(created_project)
+    return project
 
 
 #run: 
