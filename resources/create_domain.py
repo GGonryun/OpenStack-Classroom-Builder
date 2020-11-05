@@ -7,7 +7,7 @@ def create_domain(domain_id):
   print('\tcreate_domain(domain_id): {}'.format(domain_id))
   
   client = users_utility.create_keystone_client()
-  domains = client.domains.list(domain_id=domain_id)
+  domains = client.domains.list(name=domain_id)
   numDomains = len(domains)
 
   print('\tcreate_domain: numDomains: {}'.format(numDomains))
