@@ -12,3 +12,6 @@ run:
 
 domain:
 	python ./resources/create_domain.py --id default
+
+project:
+	python ./resources/create_project.py --project-name test --username admin --role admin
