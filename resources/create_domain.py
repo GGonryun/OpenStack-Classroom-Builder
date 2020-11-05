@@ -14,7 +14,7 @@ def create_domain(domain_id):
     print('\tcreate_domain: numDomains: {}'.format(numDomains))
     if(numDomains == 0):
       return client.domains.create(domain_id, enabled=true)
-    else if(numDomains == 1):
+    elif(numDomains == 1):
       return domains[0]
     else 
       return None

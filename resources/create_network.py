@@ -39,7 +39,7 @@ def create_network(domain, project, name, is_external):
     print('\tcreate_network: networks found {}'.format(numNetworks))
     if numNetworks == 1:
       return networks[0]
-    else if numNetworks == 0:
+    elif numNetworks == 0:
       return client.create_network({'network': {'name': name, 'admin_state_up': True, 'router:external': is_external}})
     else:
       return None
