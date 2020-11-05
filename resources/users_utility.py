@@ -63,14 +63,14 @@ def create_nova_client(username, password, project, domain):
     The nova client operates on VM's specific to a users account.
     Uses environment variables.
     '''
-  auth = v3.Password(auth_url=env(OS_AUTH_URL),
-                     username=username,
-                     password=password,
-                     project_name=project,
-                     user_domain_name=domain,
-                     project_domain_name=domain)
-  session = session.Session(auth=auth)
-  return n_client.Client(NOVA_API_VERSION, session=session)
+    auth = v3.Password(auth_url=env(OS_AUTH_URL),
+                      username=username,
+                      password=password,
+                      project_name=project,
+                      user_domain_name=domain,
+                      project_domain_name=domain)
+    session = session.Session(auth=auth)
+    return n_client.Client(NOVA_API_VERSION, session=session)
 
 
 def create_neutron_client(project, domain):
@@ -80,14 +80,14 @@ def create_neutron_client(project, domain):
     You must first add the admin account before modifying 
     a project's network resources.
     '''
-  auth = v3.Password(auth_url=env(OS_AUTH_URL),
-                     username=env(OS_USERNAME),
-                     password=env(OS_PASSWORD),
-                     project_name=project,
-                     user_domain_name=domain,
-                     project_domain_name=domain)
-  session = session.Session(auth=auth)
-  return e_client.Client(session=session)
+    auth = v3.Password(auth_url=env(OS_AUTH_URL),
+                      username=env(OS_USERNAME),
+                      password=env(OS_PASSWORD),
+                      project_name=project,
+                      user_domain_name=domain,
+                      project_domain_name=domain)
+    session = session.Session(auth=auth)
+    return e_client.Client(session=session)
 
 
 def get_user(username):
