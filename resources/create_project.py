@@ -5,8 +5,8 @@ import os
 from hashlib import pbkdf2_hmac
 import binascii
 import argparse
-from keystoneclient.v3 import client as k_client
 import pprint
+from keystoneclient.v3 import client as k_client
 import users_utility
 
  ### REQUIREMENTS ###

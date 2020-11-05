@@ -1,6 +1,8 @@
 from keystoneauth1.identity import v3
 from keystoneauth1 import session
 from keystoneclient.v3 import client as k_client
+from novaclient import client as n_client
+from neutronclient.v2_0 import e_client
 import string
 import random
 import sys
@@ -26,6 +28,7 @@ OS_PROJECT = 'OS_PROJECT_NAME'
 OS_PROJECT_DOMAIN = 'OS_PROJECT_DOMAIN_NAME'
 OS_AUTH_URL = 'OS_AUTH_URL'
 OS_USER_DOMAIN = 'OS_USER_DOMAIN_NAME'
+NOVA_API_VERSION = 2
 
 
 def env(name):
@@ -53,6 +56,38 @@ def create_keystone_client():
     sess = session.Session(auth=auth)
     keystone = k_client.Client(session=sess)
     return keystone
+
+
+def create_nova_client(username, password, project, domain):
+    '''
+    The nova client operates on VM's specific to a users account.
+    Uses environment variables.
+    '''
+  auth = v3.Password(auth_url=env(OS_AUTH_URL),
+                     username=username,
+                     password=password,
+                     project_name=project,
+                     user_domain_name=domain,
+                     project_domain_name=domain)
+  session = session.Session(auth=auth)
+  return n_client.Client(NOVA_API_VERSION, session=session)
+
+
+def create_neutron_client(project, domain):
+    '''
+    The neutron client operates at the project-level and uses 
+    environment variables for an admin account.
+    You must first add the admin account before modifying 
+    a project's network resources.
+    '''
+  auth = v3.Password(auth_url=env(OS_AUTH_URL),
+                     username=env(OS_USERNAME),
+                     password=env(OS_PASSWORD),
+                     project_name=project,
+                     user_domain_name=domain,
+                     project_domain_name=domain)
+  session = session.Session(auth=auth)
+  return e_client.Client(session=session)
 
 
 def get_user(username):
@@ -197,6 +232,7 @@ def generate_hash(salt, password):
     derived_key = pbkdf2_hmac('sha512', password, salt, 500)
     new_password = binascii.hexlify(derived_key)[0:9]
     return new_password
+
 
 def generate_user_password(username):
     '''

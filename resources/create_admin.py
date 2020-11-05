@@ -1,11 +1,11 @@
 from keystoneauth1.identity import v3
 from keystoneauth1 import session
-import sys
-import os
 from hashlib import pbkdf2_hmac
 import binascii
-import argparse
 from keystoneclient.v3 import client as k_client
+import argparse
+import sys
+import os
 import pprint
 import users_utility
 

@@ -1,38 +1,14 @@
-Version: 1
-Domain: 
-  Name: Capstone
+Version: 1.1
 Project: 
   Name: San Diego
 Networks: 
   - Name: HK-BUSINESS-Subnet 
     Provider: ISP Provider
-    Type: External
-  - Name: HK-WEBSITE-Subnet
-    Provider: HK-BUSINESS-Subnet
-    Type: Internal
+    External: True
+    Address: 10.10.10.0/24
 Students:
-  - Schmid,Robert,roberts-10
-  - Rahmoune,Mohamed Othmane
-  - Athawale,Amol,aathawale
-  - Ayersman,Sean,sayersman
-  - Brown,Curtis,curtisbrown
-  - Fiorella,Nicholas,nfiorella
-  - Kelch,Thomas,tkelch
-  - Lopez,Samuel,samuellopez
-  - Millet,Angel,amillet
-  - Misleh,Nicholas,nmisleh
-  - Pahang,Peyvand,ppahang
-  - Pulido,Dee,dpulido
-  - Ralston,Adam,aralston
-  - Sugg,Benjamin,bsugg
-  - Wilson,Redith,redithwilson
+  - test,test,test
+
 Machines:
   PerProject:
-    - Windows 10 Pro,4,Windows-10-pro,Large,HK-BUSINESS-Subnet
     - CentOS 7,2,CentOS 7,Medium,HK-BUSINESS-Subnet
-    - Ubuntu 20,2,Ubuntu 20,Medium,HK-BUSINESS-Subnet
-    - CentOS 7 Server,4,CentOS 7,Large,HK-BUSINESS-Subnet
-    - Windows server 2016,2,WindowsServer2016-Cloud,X-Large,HK-BUSINESS-Subnet
-    - CentOS 7 Server,4,CentOS 7,Large,HK-WEBSITE-Subnet
-  PerUser:
-    - CentOS 7 Server,4,CentOS 7,Large,HK-WEBSITE-Subnet
