@@ -19,7 +19,7 @@ def create_domain(domain_id):
     else:
       return None
 
-  except Exception ex:
+  except Exception as ex:
     pprint.pprint("an error has occured getting the domain, {}, {}", ex, domain)
 
 if __name__ == '__main__':

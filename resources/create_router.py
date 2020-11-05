@@ -15,7 +15,7 @@ def create_router(domain, project, name, network_id, subnet_id, ip_address):
     external_gateway_info = { 'network_id': network_id, 'enable_snat': True, 'external_fixed_ips': external_fixed_ips}
     network = client.create_router({'router': {'name': name, 'admin_state_up': True, 'external_gateway_info': external_gateway_info}})
     return network.id
-  except Exception ex:
+  except Exception as ex:
       pprint.pprint("\tcreate_router: an error has occured {}, {}, {}, {}, {}, {}, {}", ex, domain, project, name, network_id, subnet_id, ip_address)
 
 #run: 

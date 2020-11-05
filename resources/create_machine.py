@@ -50,7 +50,7 @@ def create_machine(domain, project, username, password, name, image, flavor, net
   try:
     client = users_utility.get_nova_client(username, password, domain, project)
     return client.servers.create(name=name, image=image, flavor=flavor, nics=[{ 'net-id': network_id }])
-  except Exception ex:
+  except Exception as ex:
     print("an error has occured creating machine {}, {}, {}, {}, {}, {}, {}, {}, {}".format(ex, domain, project, username, password, name, image, flavor, network_id))
     return None
 
