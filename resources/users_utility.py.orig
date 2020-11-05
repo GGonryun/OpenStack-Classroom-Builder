@@ -147,7 +147,11 @@ def get_a_project(project_name):
 
         if(numProjects == 1):
             return projects[1]
+<<<<<<< HEAD
+        else
+=======
         else:
+>>>>>>> 0228d47ab6adc738db22c3b80365cdd10d9e40f6
             return None
     except:
         print("unable to find project: {}".format(project_name))
