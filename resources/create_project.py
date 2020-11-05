@@ -30,7 +30,8 @@ def create_project(project_name, username, user_role):
     project = users_utility.get_a_project(project_name)
     project_id = project.id if project != None else None
 
-    if project_id:
+    print('searching for project and found: {}'.format(project))
+    if project:
         print('Project with name: ' + project_name + ' and id: ' + project_id + ' already exists. ...Continuing Script...')
     else:
         print("...Creating Project...")
