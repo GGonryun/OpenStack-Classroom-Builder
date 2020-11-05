@@ -15,3 +15,6 @@ domain:
 
 project:
 	python ./resources/create_project.py --project-name test --username admin --role admin
+
+network:
+	python ./resources/create_network.py --domain default --project Test --name test

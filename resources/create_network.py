@@ -70,6 +70,6 @@ if __name__ == '__main__':
 
     if args.domain and args.project and args.name:
       external = True if args.external else False
-      create_network(args.domain, args.project, args.name, external)
+      print(create_network(args.domain, args.project, args.name, external))
     else:
         raise Exception('create_network.py usage: --domain <name> --project <name> --name <name> [--external]')
