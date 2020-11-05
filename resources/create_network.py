@@ -33,9 +33,9 @@ def create_network(domain, project, name, is_external):
   try:
     client = users_utility.create_neutron_client(domain, project)
     # find network:
-    netz = client.list_networks(name=name)
+    netz = client.list_networks()['networks']
     print('\tcreate_network: netz: {}'.format(netz))
-    networks = list(filter(lambda a : a['name'] == name, netz.networks))
+    networks = list(filter(lambda a : a['name'] == name, netz))
     numNetworks = len(networks)
 
     print('\tcreate_network: networks found {}'.format(numNetworks))
