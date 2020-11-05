@@ -2,7 +2,7 @@ from keystoneauth1.identity import v3
 from keystoneauth1 import session
 from keystoneclient.v3 import client as k_client
 from novaclient import client as n_client
-from neutronclient.v2_0 import e_client
+from neutronclient.v2_0 import client as e_client
 import string
 import random
 import sys
