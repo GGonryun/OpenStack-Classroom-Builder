@@ -43,9 +43,8 @@ ledger = {}
 def start():
   # Meat & Substance: This function is the "main" function of the file, it creates vm's for users from a csv file.
   [classroom, _] = read_yaml(CLASSROOM_FILE)
-  projects = classroom[PROJECT]
   ledger[DOMAIN] = create_domain.create_domain('default')
-  ledger[PROJECT] = create_project.create_project(projects, ADMIN, ADMIN)
+  ledger[PROJECT] = create_project.create_project(classroom[PROJECT][NAME], ADMIN, ADMIN)
   ledger[NETWORKS] = map(partial(create_network.create_linked_network, ledger[DOMAIN], ledger[PROJECT]), classroom[NETWORKS])
   ledger[STUDENTS] = map(partial(create_student.create_student, ledger), classroom[STUDENTS])
   ledger[MACHINES] = map(partial(create_machine.create_project_machines, ledger), classroom[MACHINES][PER_PROJECT]) + map(partial(create_machine.create_student_machines, ledger), classroom[MACHINES][PER_STUDENT])
