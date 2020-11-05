@@ -57,7 +57,7 @@ def select_ip(cidr):
   if (rg == '24'): #subnet range /24 means the last value 0 can be replaced with any value within 0-255
     return c[0] + "." + c[1] + "." + c[2] + "." + random.randint(0,256)
   else:
-    return c[0] + "." + c[1] + "." + c[2] + "." + ?
+    return c[0] + "." + c[1] + "." + c[2] + "." + "?"
     
 
 if __name__ == '__main__':
