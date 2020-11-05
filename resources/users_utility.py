@@ -147,8 +147,8 @@ def get_a_project(project_name):
         numProjects = len(projects)
         print("projects found: {}".format(projects))
         return projects[1]
-    except:
-        print("unable to find project: {}".format(project_name))
+    except Exception as ex:
+        print("unable to find project: {}, {}".format(ex, project_name))
         return None
 
 
