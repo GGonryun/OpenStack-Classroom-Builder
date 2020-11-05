@@ -8,21 +8,19 @@ PROVIDER = 'Provider'
 USERNAME = 'Username'
 EXTERNAL = 'External'
 
-def create_linked_network(domain, project, networks):
+def create_linked_network(domain, project, network):
   ln = []
-  print('operating on networks: {}'.format(networks))
-  for network in networks:
-    print('operating on network: {}'.format(network))
-    external = network[EXTERNAL] if network[EXTERNAL] != None else False
-    domain_name = domain.name
-    project_name = project.name
-    n = create_network(domain_name, project_name, network[NAME], external)
-    s = create_subnet.create_subnet(domain_name, project_name, network[NAME], n.id, network[CIDR])
-    p = create_network(domain_name, project_name, network[PROVIDER])
-    ps = p['subnet'][0]
-    a = select_ip(network[CIDR])
-    r = create_router.create_router(domain_name, project_name, p.id, ps.id, a)
-    ln.append(n)
+  print('operating on network: {}'.format(network))
+  external = network[EXTERNAL] if network[EXTERNAL] != None else False
+  domain_name = domain.name
+  project_name = project.name
+  n = create_network(domain_name, project_name, network[NAME], external)
+  s = create_subnet.create_subnet(domain_name, project_name, network[NAME], n.id, network[CIDR])
+  p = create_network(domain_name, project_name, network[PROVIDER])
+  ps = p['subnet'][0]
+  a = select_ip(network[CIDR])
+  r = create_router.create_router(domain_name, project_name, p.id, ps.id, a)
+  ln.append(n)
   return ln
 
 def create_network(domain, project, name, is_external):
