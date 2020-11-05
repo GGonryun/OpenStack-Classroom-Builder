@@ -20,7 +20,7 @@ def create_domain(domain_id):
       return None
 
   except Exception as ex:
-    pprint.pprint("an error has occured getting the domain, {}, {}", ex, domain)
+    pprint.pprint("an error has occured getting the domain, {}, {}", ex, domain_id)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
