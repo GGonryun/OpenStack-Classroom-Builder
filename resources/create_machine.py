@@ -27,7 +27,7 @@ def create_student_machine(ledger, machine):
 
 
 def create_project_machine(ledger, machine):
-  print('create_project_machine(ledger, machines): {}, {}'.format(ledger, machines))
+  print('create_project_machine(ledger, machine): {}, {}'.format(ledger, machine))
   instances = machine[INSTANCES]
   print('create_project_machine: machine, instances: {}, {}'.format(machine, instances))
   for num in range(0, instances):
