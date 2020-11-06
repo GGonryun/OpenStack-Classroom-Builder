@@ -4,7 +4,7 @@ import create_router
 import users_utility
 
 NAME = 'Name'
-CIDR = 'CIDR'
+CIDR = 'Address'
 PROVIDER = 'Provider'
 USERNAME = 'Username'
 EXTERNAL = 'External'
