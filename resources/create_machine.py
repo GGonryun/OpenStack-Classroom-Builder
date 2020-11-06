@@ -2,6 +2,7 @@ import argparse
 import sys
 import pprint
 import users_utility
+import create_network
 
 STUDENTS = 'Students'
 DOMAIN = 'Domain'
