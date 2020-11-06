@@ -31,7 +31,7 @@ def create_linked_network(domain, project, network):
   ln.append(n)
   return ln
 
-def create_network(domain, project, name, is_external):
+def create_network(domain, project, name, is_external=False):
   '''
   attempts to find a given network by name inside of a project, if the network is found we return it.
   otherwise we create a new network.
