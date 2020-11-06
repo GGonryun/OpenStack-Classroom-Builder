@@ -43,10 +43,13 @@ def create_project_machine(ledger, machine):
 
 
 def get_flavor_id(client, flavor_name):
-  f = client.flavors.get(flavor_name)
+  f = client.flavors.list()
   print('found flavors', f)
-  if f:
-    return f
+  flavors = list(filter(lambda f : f['name'] == flavor_name, f))
+
+  n = len(flavors)
+  if n == 1:
+    return flavors[0].id
   else:
     raise Exception('invalid flavor name', flavor_name)
 
@@ -66,7 +69,7 @@ def create_machine(domain, project, username, password, name, image, flavor, net
     client = users_utility.create_nova_client(None, None, domain, project)
     f = get_flavor_id(client, flavor)
     i = get_image_id(client, image)
-    return client.servers.create(name=name, image=i, flavor=flavor, nics=[{ 'net-id': network_id }])
+    return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }])
   except Exception as ex:
     print("an error has occured creating machine {}, {}, {}, {}, {}, {}, {}, {}, {}".format(ex, domain, project, username, password, name, image, flavor, network_id))
     return None
