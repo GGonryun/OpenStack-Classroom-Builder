@@ -63,8 +63,8 @@ def create_network(domain, project, name, is_external=False):
 def select_ip(cidr):
   print('\tselect_ip(cidr):', cidr)
   ar = cidr.split('/')
-  ip = ipr[0]
-  rg = ipr[1]
+  ip = ar[0]
+  rg = ar[1]
   c = ip.split('.')
   print('\tselect_ip: ip, r', ip, r)
   if (rg == '24'): #subnet range /24 means the last value 0 can be replaced with any value within 0-255
