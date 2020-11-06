@@ -19,7 +19,7 @@ import users_utility
 # This script creates users with the student role, in the default domain, and adds them to a group with the same name as the Project specified in the given CSV file.
 # It also adds the given admin user, if they exist, if not it defaults to the 'admin' user
 
-def create_student_users(rows, admin_username):
+def create_student_users(rows, admin_username=None):
     '''
     Create users with student role and add to project based off 
     of the 'Project' column in the csv file
@@ -30,7 +30,6 @@ def create_student_users(rows, admin_username):
         users_project_name = row['Project']
         username = row['Username']
         project_id = users_utility.get_a_projectID(users_project_name)
-        admin_user = users_utility.get_user(admin_username)
         # check if user is an admin
         if project_id:
             print('Project with id: ' + project_id + ' exists.')
@@ -38,14 +37,16 @@ def create_student_users(rows, admin_username):
             project_id = keystone.projects.create(users_project_name, 'default').id
             print('Project '+ users_project_name + ' with id ' + project_id + ' has been created.')
 
-        if users_utility.is_admin(admin_username):
-            print('\n')
-            print('Adding admin user  '+ admin_username + ' to project with id ' + project_id)
-            users_utility.add_user_to_project(users_utility.ADMIN_ROLE, project_id, admin_user)
-        else:
-            print('Will default to adding "admin" with id : ' + users_utility.ADMIN_USER.id + ' to project.')
-            users_utility.add_user_to_project(users_utility.ADMIN_ROLE, project_id, users_utility.ADMIN_USER)
-        
+        if admin_username:
+          print('add admin', admin_username)
+          admin_user = users_utility.get_user(admin_username)
+          if users_utility.is_admin(admin_username):
+              print('Adding admin user  '+ admin_username + ' to project with id ' + project_id)
+              users_utility.add_user_to_project(users_utility.ADMIN_ROLE, project_id, admin_user)
+          else:
+              print('Will default to adding "admin" with id : ' + users_utility.ADMIN_USER.id + ' to project.')
+              users_utility.add_user_to_project(users_utility.ADMIN_ROLE, project_id, users_utility.ADMIN_USER)
+          
         # Note: Group name must match 'Project' column name
         group_id = users_utility.get_a_groupID(users_project_name)
         # Check if group already exists
