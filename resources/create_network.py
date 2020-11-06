@@ -66,7 +66,7 @@ def select_ip(cidr):
   ip = ar[0]
   rg = ar[1]
   c = ip.split('.')
-  print('\tselect_ip: ip, r', ip, r)
+  print('\tselect_ip: ip, r', ip, rg)
   if (rg == '24'): #subnet range /24 means the last value 0 can be replaced with any value within 0-255
     return c[0] + "." + c[1] + "." + c[2] + "." + random.randint(0,256)
   else:
