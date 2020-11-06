@@ -2,7 +2,7 @@ import users_utility
 
 PROJECT = 'Project'
 USERNAME = 'Username'
-STUDENT = 'student'
+STUDENT = 'Student'
 
 def create_student(ledger, student):
   project = ledger[PROJECT].name
