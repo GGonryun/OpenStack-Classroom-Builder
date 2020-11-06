@@ -10,7 +10,7 @@ def create_subnet(domain, project, name, network_id, cidr):
   print("\tcreate_subnet(domain, project, name, network_id, cidr): {}, {}, {}, {}, {}".format(domain, project, name, network_id, cidr))
   try:
     client = users_utility.create_neutron_client(domain, project)
-    subnet = client.create_subnet({'subnet': {'name': name, 'network_id': network_id, 'ip_version': 4, 'cidr': cidr, 'dns_nameservers': ['8.8.8.8', '8.8.4.4']}})
+    subnet = client.create_subnet({'subnet': {'name': name, 'network_id': network_id, 'ip_version': 4, 'cidr': cidr }})
     return subnet.id
   except Exception as ex:
       print("\tcreate_subnet: an error occured:, {}, {}, {}, {}, {}, {}", ex, domain, project, name, network_id, cidr)
