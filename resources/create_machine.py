@@ -26,7 +26,7 @@ def create_student_machine(ledger, machine):
       i = num + 1
       name = username + "-" + machine[NAME] + "-" + str(i)
       n = create_network.create_network(ledger[DOMAIN].name, ledger[PROJECT].name, machine[NETWORK])
-      return create_machine(ledger[DOMAIN].name, ledger[PROJECT].name, student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], n.id)
+      return create_machine(ledger[DOMAIN].name, ledger[PROJECT].name, student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], n['id'])
 
 
 def create_project_machine(ledger, machine):
@@ -38,7 +38,7 @@ def create_project_machine(ledger, machine):
     project = ledger[PROJECT].name
     name = project + "-" + machine[NAME] + "-" + str(i)
     n = create_network.create_network(ledger[DOMAIN].name, ledger[PROJECT].name, machine[NETWORK])
-    return create_machine(ledger[DOMAIN].name, project, None, None, name, machine[IMAGE], machine[FLAVOR], n.id)
+    return create_machine(ledger[DOMAIN].name, project, None, None, name, machine[IMAGE], machine[FLAVOR], n['id'])
 
 
 def create_machine(domain, project, username, password, name, image, flavor, network_id):
