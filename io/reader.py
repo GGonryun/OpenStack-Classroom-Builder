@@ -69,7 +69,7 @@ def machine_csv_to_dict(csv):
   arr = csv.split(',')
   access = partial(safeAccess, arr)
   if(len(arr) == 5):
-    machine = { "Name": access(0), "Instances": access(1), "Flavor": access(2), "Image": access(3), "Network": access(4)}
+    machine = { "Name": access(0), "Instances": access(1), "Image": access(2), "Flavor": access(3), "Network": access(4)}
     print("\t\tmachine_csv_to_dict: created machine {}".format(machine))
     return machine
   else:
