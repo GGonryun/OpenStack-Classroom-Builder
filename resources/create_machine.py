@@ -15,37 +15,30 @@ FLAVOR = 'Flavor'
 INSTANCES = 'Instances'
 
 
-def create_student_machines(ledger, machines): 
-  print('\tcreate_student_machines(ledger, machines): {}, {}'.format(ledger, machines))
-  m = []
-  for machine in machines:
-    for student in ledger[STUDENTS]:
-      instances = machine[INSTANCES]
-      print('\tcreate_student_machines: machine, student, instances: {}, {}, {}'.format(machine, student, instances))
-      for num in range(0, instances):
-        n = num + 1
-        name = username + "-" + machine[NAME] + "-" + n
-        m.append(create_machine(ledger[DOMAIN][NAME], ledger[PROJECT][NAME], student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], ledger[NETWORKS][ID]))
-
-  return m
-
-
-def create_project_machines(ledger, machines):
-  print('\tcreate_project_machines(ledger, machines): {}, {}'.format(ledger, machines))
-  m = []
-  for machine in machines:
+def create_student_machine(ledger, machine): 
+  print('create_student_machine(ledger, machine): {}, {}'.format(ledger, machine))
+  for student in ledger[STUDENTS]:
     instances = machine[INSTANCES]
-    print('\tcreate_project_machines: machine, instances: {}, {}'.format(machine, instances))
+    print('create_student_machine: machine, student, instances: {}, {}, {}'.format(machine, student, instances))
     for num in range(0, instances):
       n = num + 1
-      project = ledger[PROJECT][NAME]
-      name = project + "-" + machine[NAME] + "-" + n
-      m.append(create_machine(ledger[DOMAIN][NAME], project, student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], ledger[NETWORKS][ID]))
-  return m
+      name = username + "-" + machine[NAME] + "-" + str(n)
+      return create_machine(ledger[DOMAIN][NAME], ledger[PROJECT][NAME], student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], ledger[NETWORKS][ID])
+
+
+def create_project_machine(ledger, machine):
+  print('create_project_machine(ledger, machines): {}, {}'.format(ledger, machines))
+  instances = machine[INSTANCES]
+  print('create_project_machine: machine, instances: {}, {}'.format(machine, instances))
+  for num in range(0, instances):
+    n = num + 1
+    project = ledger[PROJECT][NAME]
+    name = project + "-" + machine[NAME] + "-" + n
+    return create_machine(ledger[DOMAIN][NAME], project, student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], ledger[NETWORKS][ID])
 
 
 def create_machine(domain, project, username, password, name, image, flavor, network_id):
-  print("\tcreate_machine(domain, project, username, password, name, image, flavor, network_id): {}, {}, {}, {}, {}, {}, {}, {}".format(domain, project, username, password, name, image, flavor, network_id))
+  print("create_machine(domain, project, username, password, name, image, flavor, network_id):", domain, project, username, password, name, image, flavor, network_id)
   
   try:
     client = users_utility.get_nova_client(username, password, domain, project)
