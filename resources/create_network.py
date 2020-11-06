@@ -24,10 +24,12 @@ def create_linked_network(domain, project, network):
   s = create_subnet.create_subnet(domain_name, project_name, network[NAME], n['id'], network[CIDR])
   p = create_network(domain_name, project_name, network[PROVIDER])
   print('\tprovider network:', p)
-  ps = p['subnet'][0]
-  print('\tprovider subnet network:', ps)
-  a = select_ip(network[CIDR])
-  r = create_router.create_router(domain_name, project_name, network[NAME], p['id'], ps['id'], a, s['id'])
+  ps_id = p['subnets'][0]
+  print('\tprovider subnet id:', ps_id)
+  ps = create_subnet.create_subnet(domain_name, project_name, ps_id)
+  cidr = ps['cidr']
+  a = select_ip(cidr)
+  r = create_router.create_router(domain_name, project_name, network[NAME], p['id'], ps_id, a, s['id'])
   ln.append(n)
   return ln
 
@@ -58,7 +60,8 @@ def create_network(domain, project, name, is_external=False):
       print("an error occured getting the network, {}, {}, {}, {}, {}", ex, domain, project, name, is_external)
 
 
-def select_ip(cidr):
+def select_ip(domain, project, subnet_id):
+
   ar = cidr.split('/')
   ip = ipr[0]
   rg = ipr[1]

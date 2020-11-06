@@ -4,17 +4,35 @@ import users_utility
 
 NAMESERVERS =  ['8.8.8.8', '8.8.4.4']
 
-def create_subnet(domain, project, name, network_id, cidr):
+def create_subnet(domain, project, name, network_id=None, cidr=None):
   '''
     returns the subnet object
-    TODO: idempotence for subnets, if a subnet exists don't make a new one. return it.
+    an id can be used to find the subnet instead of the name.
   '''
   
   print("\tcreate_subnet(domain, project, name, network_id, cidr): {}, {}, {}, {}, {}".format(domain, project, name, network_id, cidr))
   client = users_utility.create_neutron_client(domain, project)
-  response = client.create_subnet({'subnet': {'name': name, 'network_id': network_id, 'ip_version': 4, 'cidr': cidr, 'dns_nameservers': NAMESERVERS }})
-  print("\tsubnet: {}".format(response))
-  return response['subnet']
+
+  subnet = find_subnet(client, name)
+  if subnet:
+    print("\tcreate_subnet: found subnet:", subnet)
+    return subnet
+  else:
+    response = client.create_subnet({'subnet': {'name': name, 'network_id': network_id, 'ip_version': 4, 'cidr': cidr, 'dns_nameservers': NAMESERVERS }})
+    print("\tsubnet: {}".format(response))
+    return response['subnet']
+
+
+def find_subnet(client, name):
+  print('\tfind_subnet(client, name):', client, name)
+  subnets = list(filter(lambda s : s['name'] == name or s['id'] == name, client.list_subnets()['subnets']))
+  numSubnets = len(subnets)
+
+  print('\tfind_subnet: numSubnets:', numSubnets)
+  if numSubnets == 1:
+    return subnets[0]
+  
+  return None
 
 #run: 
 if __name__ == '__main__':
