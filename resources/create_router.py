@@ -8,29 +8,48 @@ def create_router(domain, project, name, external_network_id, external_subnet_id
   ip_address = the ip address to attach the router to.
   subnet_id = when connecting to external services use `939dfc59-9c31-42fe-8cfa-78d2838b5b76` which is currently the external provider network's subnet id.
   '''
-  print('\tcreate_router(domain, project, name, external_network_id, subnet_id, external_subnet_id):', domain, project, external_network_id, external_subnet_id, external_ip_address, internal_subnet_id)
+  print('create_router(domain, project, name, external_network_id, subnet_id, external_subnet_id):', domain, project, external_network_id, external_subnet_id, external_ip_address, internal_subnet_id)
   try:
     client = users_utility.create_neutron_client(domain, project)
-    external_fixed_ips = [{'ip_address': external_ip_address, 'subnet_id': external_subnet_id}]
-    external_gateway_info = { 'network_id': external_network_id, 'enable_snat': True, 'external_fixed_ips': external_fixed_ips}
-    response = client.create_router({'router': {'name': name, 'admin_state_up': True, 'external_gateway_info': external_gateway_info}})
-    print('\treceived response:', response)
-    router = response['router']
+
+    router = find_router(client, name)
+    if not router:
+      external_fixed_ips = [{'ip_address': external_ip_address, 'subnet_id': external_subnet_id}]
+      external_gateway_info = { 'network_id': external_network_id, 'enable_snat': True, 'external_fixed_ips': external_fixed_ips}
+      router = client.create_router({'router': {'name': name, 'admin_state_up': True, 'external_gateway_info': external_gateway_info}})['router']
 
     link = link_to_router(client, router['id'], internal_subnet_id)
-    print('\tcreate_router: linked to subnet:', link)
+    print('create_router: linked to subnet:', link)
 
     return router
   except Exception as ex:
-    print("\tcreate_router: an error has occured", ex, domain, project, name, external_network_id,  external_subnet_id, external_ip_address, internal_subnet_id)
+    print("create_router: an error has occured", ex, domain, project, name, external_network_id,  external_subnet_id, external_ip_address, internal_subnet_id)
     return None
 
 
-def link_to_router(client, router_id, subnet_id):
-  print('\tlink_to_router(client, router_id, subnet_id)', client, router_id, subnet_id)
-  if subnet_id:
-    return client.add_interface_router(router_id, {'subnet_id': subnet_id})
+def find_router(client, name):
+  '''
+  name can also be an id.
+  '''
+  print('find_router(client, name):', client, name)
+  routers = list(filter(lambda s : s['name'] == name or s['id'] == name, client.list_routers()['routers']))
+  numRouters = len(routers)
 
+  print('find_router: numSubnets:', numRouters)
+  if numRouters == 1:
+    return routers[0]
+  
+  return None
+
+def link_to_router(client, router_id, subnet_id):
+  print('link_to_router(client, router_id, subnet_id)', client, router_id, subnet_id)
+  try:
+    if subnet_id:
+      print('link_to_router: creating link')
+      return client.add_interface_router(router_id, {'subnet_id': subnet_id})
+  except:
+    print('link_to_router: link already exists')
+      return None
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()

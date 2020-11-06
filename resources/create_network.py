@@ -58,7 +58,7 @@ def create_network(domain, project, name, is_external=False):
       return None
 
   except Exception as ex:
-      print("an error occured getting the network, {}, {}, {}, {}, {}", ex, domain, project, name, is_external)
+      print("an error occured getting the network", ex, domain, project, name, is_external)
 
 
 def select_ip(cidr):
