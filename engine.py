@@ -1,6 +1,5 @@
 import pandas
 import string
-import random
 import sys
 import os
 import pprint

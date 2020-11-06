@@ -2,6 +2,7 @@ import argparse
 import create_subnet
 import create_router
 import users_utility
+import random
 
 NAME = 'Name'
 CIDR = 'Address'
