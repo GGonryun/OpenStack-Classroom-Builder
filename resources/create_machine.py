@@ -33,14 +33,14 @@ def create_project_machine(ledger, machine):
     n = num + 1
     project = ledger[PROJECT].name
     name = project + "-" + machine[NAME] + "-" + str(n)
-    return create_machine(ledger[DOMAIN].name, project, student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], ledger[NETWORKS][ID])
+    return create_machine(ledger[DOMAIN].name, project, None, None, name, machine[IMAGE], machine[FLAVOR], ledger[NETWORKS][ID])
 
 
 def create_machine(domain, project, username, password, name, image, flavor, network_id):
   print("create_machine(domain, project, username, password, name, image, flavor, network_id):", domain, project, username, password, name, image, flavor, network_id)
   
   try:
-    client = users_utility.get_nova_client(username, password, domain, project)
+    client = users_utility.get_nova_client(None, None, domain, project)
     return client.servers.create(name=name, image=image, flavor=flavor, nics=[{ 'net-id': network_id }])
   except Exception as ex:
     print("an error has occured creating machine {}, {}, {}, {}, {}, {}, {}, {}, {}".format(ex, domain, project, username, password, name, image, flavor, network_id))

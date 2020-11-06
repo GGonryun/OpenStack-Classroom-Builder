@@ -63,6 +63,9 @@ def create_nova_client(username, password, project, domain):
     The nova client operates on VM's specific to a users account.
     Uses environment variables.
     '''
+    username = username if username else env(OS_USERNAME)
+    password = password if password else env(OS_PASSWORD)
+
     auth = v3.Password(auth_url=env(OS_AUTH_URL),
                       username=username,
                       password=password,
