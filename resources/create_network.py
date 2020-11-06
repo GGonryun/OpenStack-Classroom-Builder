@@ -15,12 +15,18 @@ def create_linked_network(domain, project, network):
   external = network[EXTERNAL] if network[EXTERNAL] != None else False
   domain_name = domain.name
   project_name = project.name
+  # The sequence of steps is important, we must first create the network [n], then the subnet [s].
+  # afterwards we get the provider network [p], and the provider networks subnet [ps].
+  # we then select an ip-address on the provider subnet's ip address range.
+  # finally you can create a router using all the pieces that links your new network to the external network.
   n = create_network(domain_name, project_name, network[NAME], external)
-  s = create_subnet.create_subnet(domain_name, project_name, network[NAME], n.id, network[CIDR])
+  s = create_subnet.create_subnet(domain_name, project_name, network[NAME], n['id'], network[CIDR])
   p = create_network(domain_name, project_name, network[PROVIDER])
+  print('\tprovider network:', p)
   ps = p['subnet'][0]
+  print('\tprovider subnet network:', ps)
   a = select_ip(network[CIDR])
-  r = create_router.create_router(domain_name, project_name, p.id, ps.id, a)
+  r = create_router.create_router(domain_name, project_name, network[NAME], p['id'], ps['id'], a, s['id'])
   ln.append(n)
   return ln
 
