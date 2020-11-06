@@ -2,6 +2,7 @@ import argparse
 import sys
 import users_utility
 
+
 def create_router(domain, project, name, external_network_id, external_subnet_id, external_ip_address, internal_subnet_id):
   '''
   ip_address = the ip address to attach the router to.
@@ -24,11 +25,13 @@ def create_router(domain, project, name, external_network_id, external_subnet_id
     print("\tcreate_router: an error has occured", ex, domain, project, name, external_network_id,  external_subnet_id, external_ip_address, internal_subnet_id)
     return None
 
+
 def link_to_router(client, router_id, subnet_id):
   print('\tlink_to_router(client, router_id, subnet_id)', client, router_id, subnet_id)
   if subnet_id:
     return client.add_interface_router(router_id, {'subnet_id': subnet_id})
-#run: 
+
+
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument("--domain", help="name of domain for the router")

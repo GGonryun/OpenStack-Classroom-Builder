@@ -60,13 +60,13 @@ def create_network(domain, project, name, is_external=False):
       print("an error occured getting the network, {}, {}, {}, {}, {}", ex, domain, project, name, is_external)
 
 
-def select_ip(domain, project, subnet_id):
-
+def select_ip(cidr):
+  print('\tselect_ip(cidr):', cidr)
   ar = cidr.split('/')
   ip = ipr[0]
   rg = ipr[1]
-
   c = ip.split('.')
+  print('\tselect_ip: ip, r', ip, r)
   if (rg == '24'): #subnet range /24 means the last value 0 can be replaced with any value within 0-255
     return c[0] + "." + c[1] + "." + c[2] + "." + random.randint(0,256)
   else:
