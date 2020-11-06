@@ -8,7 +8,7 @@ def create_router(domain, project, name, external_network_id, external_subnet_id
   ip_address = the ip address to attach the router to.
   subnet_id = when connecting to external services use `939dfc59-9c31-42fe-8cfa-78d2838b5b76` which is currently the external provider network's subnet id.
   '''
-  print('\tcreate_router(domain, project, name, external_network_id, subnet_id, external_subnet_id): {}, {}, {}, {}, {}, {}, {}'.format(domain, project, name, network_id, internal_subnet_id, external_subnet_id, external_ip_address))
+  print('\tcreate_router(domain, project, name, external_network_id, subnet_id, external_subnet_id):', domain, project, external_network_id, external_subnet_id, external_ip_address, internal_subnet_id)
   try:
     client = users_utility.create_neutron_client(domain, project)
     external_fixed_ips = [{'ip_address': external_ip_address, 'subnet_id': external_subnet_id}]
