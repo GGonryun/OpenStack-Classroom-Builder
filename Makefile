@@ -13,7 +13,7 @@ send:
 	git commit -m "$(M)"
 	git push
 
-run:
+classroom:
 	python engine.py ./files/demo.classroom.yaml
 
 domain:
