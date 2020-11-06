@@ -20,6 +20,7 @@ def create_linked_network(domain, project, network):
   # we then select an ip-address on the provider subnet's ip address range.
   # finally you can create a router using all the pieces that links your new network to the external network.
   n = create_network(domain_name, project_name, network[NAME], external)
+  print('\tnetwork:', n)
   s = create_subnet.create_subnet(domain_name, project_name, network[NAME], n['id'], network[CIDR])
   p = create_network(domain_name, project_name, network[PROVIDER])
   print('\tprovider network:', p)
@@ -35,6 +36,7 @@ def create_network(domain, project, name, is_external):
   attempts to find a given network by name inside of a project, if the network is found we return it.
   otherwise we create a new network.
   '''
+
   print('\tcreate_network(domain, project, name, is_external)'.format(domain, project, name, is_external))
   try:
     client = users_utility.create_neutron_client(domain, project)
@@ -51,7 +53,7 @@ def create_network(domain, project, name, is_external):
       return client.create_network({'network': {'name': name, 'admin_state_up': True, 'router:external': is_external}})
     else:
       return None
-      
+
   except Exception as ex:
       print("an error occured getting the network, {}, {}, {}, {}, {}", ex, domain, project, name, is_external)
 
