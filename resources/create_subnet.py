@@ -10,7 +10,8 @@ def create_subnet(domain, project, name, network_id, cidr):
   print("\tcreate_subnet(domain, project, name, network_id, cidr): {}, {}, {}, {}, {}".format(domain, project, name, network_id, cidr))
   client = users_utility.create_neutron_client(domain, project)
   subnet = client.create_subnet({'subnet': {'network_id': network_id, 'ip_version': 4, 'cidr': cidr }})
-  return subnet.id
+  print("\tsubnet: {}".format(subnet))
+  return subnet
 
 #run: 
 if __name__ == '__main__':
