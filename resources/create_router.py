@@ -18,7 +18,7 @@ def create_router(domain, project, name, external_network_id, external_subnet_id
     router = response['router']
     if internal_subnet_id:
       print(router['id'])
-      interface = client.add_interface_router({'router_id': router['id']}, {'subnet_id': internal_subnet_id})
+      interface = client.add_interface_router(router['id'], {'subnet_id': internal_subnet_id})
       print('\tcreated internal interface', interface)
     return router
   except Exception as ex:
