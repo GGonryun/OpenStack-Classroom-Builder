@@ -47,18 +47,18 @@ def get_flavor_id(client, flavor_name):
   print('found flavors', flavors)
 
   n = len(flavors)
-  if n == 1
+  if n == 1:
     return flavors[0].id
-  else 
+  else:
     raise Exception('invalid flavor name', flavor)
 
 def get_image_id(client, image_name):
   image = client.images.find_image(image_name)
   print('found image', image)
 
-  if image
+  if image:
     return image.id
-  else
+  else:
     raise Exception('cannot find image', image)
 
 def create_machine(domain, project, username, password, name, image, flavor, network_id):
