@@ -51,7 +51,7 @@ def get_flavor_id(client, flavor_name):
   if n == 1:
     print('flavor', flavor[0])
     i = flavor[0].id
-    print('returning flavor', flavor[0].i)
+    print('returning flavor', flavor[0].id)
     return i
   else:
     raise Exception('invalid flavor name', flavor_name)
