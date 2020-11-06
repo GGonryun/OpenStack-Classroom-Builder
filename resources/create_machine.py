@@ -7,7 +7,7 @@ import create_network
 STUDENTS = 'Students'
 DOMAIN = 'Domain'
 PROJECT = 'Project'
-NETWORKS = 'Networks'
+NETWORK = 'Network'
 USERNAME = 'Username'
 PASSWORD = 'Password'
 NAME = 'Name'
