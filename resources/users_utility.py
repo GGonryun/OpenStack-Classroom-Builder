@@ -58,7 +58,7 @@ def create_keystone_client():
     return keystone
 
 
-def create_nova_client(username, password, project, domain):
+def create_nova_client(username, password, domain, project):
     '''
     The nova client operates on VM's specific to a users account.
     Uses environment variables.
