@@ -37,7 +37,7 @@ def create_network(domain, project, name, is_external=False):
   otherwise we create a new network.
   '''
 
-  print('\tcreate_network(domain, project, name, is_external)'.format(domain, project, name, is_external))
+  print('\tcreate_network(domain, project, name, is_external)', domain, project, name, is_external)
   try:
     client = users_utility.create_neutron_client(domain, project)
     # find network:
