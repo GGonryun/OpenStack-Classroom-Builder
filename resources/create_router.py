@@ -2,7 +2,6 @@ import argparse
 import sys
 import users_utility
 
-
 def create_router(domain, project, name, external_network_id, external_subnet_id, external_ip_address, internal_subnet_id):
   '''
   ip_address = the ip address to attach the router to.
@@ -16,14 +15,19 @@ def create_router(domain, project, name, external_network_id, external_subnet_id
     response = client.create_router({'router': {'name': name, 'admin_state_up': True, 'external_gateway_info': external_gateway_info}})
     print('\treceived response:', response)
     router = response['router']
-    if internal_subnet_id:
-      print(router['id'])
-      interface = client.add_interface_router(router['id'], {'subnet_id': internal_subnet_id})
-      print('\tcreated internal interface', interface)
+
+    link = link_to_router(client, router['id'], internal_subnet_id)
+    print('\tcreate_router: linked to subnet:', link)
+
     return router
   except Exception as ex:
     print("\tcreate_router: an error has occured", ex, domain, project, name, external_network_id,  external_subnet_id, external_ip_address, internal_subnet_id)
     return None
+
+def link_to_router(client, router_id, subnet_id)
+  print('\tlink_to_router(client, router_id, subnet_id)', client, router_id, subnet_id)
+  if subnet_id:
+    return client.add_interface_router(router_id, {'subnet_id': subnet_id})
 #run: 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
