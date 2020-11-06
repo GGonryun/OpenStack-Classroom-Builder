@@ -21,7 +21,7 @@ if __name__ == '__main__':
     parser.add_argument("--domain", help="name of domain for the subnet")
     parser.add_argument("--project", help="name project for the subnet")
     parser.add_argument("--name", help="name to give subnet")
-    parser.add_argument("--network_id", help="the network id the subnet belongs to")
+    parser.add_argument("--network-id", help="the network id the subnet belongs to")
     parser.add_argument("--cidr", help="the ip address range ex: 192.168.199.0/24")
     args = parser.parse_args()
 
