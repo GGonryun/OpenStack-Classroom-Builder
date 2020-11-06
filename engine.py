@@ -15,6 +15,7 @@ import create_domain
 import create_project
 import create_network
 import create_student
+import create_machine
 
 
 ##### USER DEFINED CONSTANT #####
