@@ -43,15 +43,12 @@ def create_project_machine(ledger, machine):
 
 
 def get_flavor_id(client, flavor_name):
-  f = client.flavors.list()
+  f = client.flavors.get(flavor_name)
   print('found flavors', f)
-  flavors = list(filter(lambda f : f['name'] == flavor_name, ))
-
-  n = len(flavors)
-  if n == 1:
-    return flavors[0].id
+  if f:
+    return f
   else:
-    raise Exception('invalid flavor name', flavor)
+    raise Exception('invalid flavor name', flavor_name)
 
 def get_image_id(client, image_name):
   image = client.images.find_image(image_name)
