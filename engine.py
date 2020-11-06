@@ -36,7 +36,7 @@ CIDR = 'CIDR'
 PROVIDER = 'Provider'
 USERNAME = 'Username'
 PER_PROJECT = 'PerProject'
-PER_STUDENT = 'PerStudent'
+PER_STUDENT = 'PerUser'
 
 ##### COMMAND LINE ARGUMENTS #####
 CLASSROOM_FILE = sys.argv[1]
