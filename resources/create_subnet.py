@@ -7,6 +7,7 @@ NAMESERVERS =  ['8.8.8.8', '8.8.4.4']
 def create_subnet(domain, project, name, network_id, cidr):
   '''
     returns the subnet object
+    TODO: idempotence for subnets, if a subnet exists don't make a new one. return it.
   '''
   
   print("\tcreate_subnet(domain, project, name, network_id, cidr): {}, {}, {}, {}, {}".format(domain, project, name, network_id, cidr))
