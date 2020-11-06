@@ -49,7 +49,7 @@ def link_to_router(client, router_id, subnet_id):
       return client.add_interface_router(router_id, {'subnet_id': subnet_id})
   except:
     print('link_to_router: link already exists')
-      return None
+    return None
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
