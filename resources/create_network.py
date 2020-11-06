@@ -12,7 +12,7 @@ EXTERNAL = 'External'
 
 def create_linked_network(domain, project, network):
   ln = []
-  print('\tcreate_linked_network({}, {}, {})'.format(domain, project, network))
+  print('create_linked_network({}, {}, {})'.format(domain, project, network))
   external = network[EXTERNAL] if network[EXTERNAL] != None else False
   domain_name = domain.name
   project_name = project.name
@@ -21,12 +21,12 @@ def create_linked_network(domain, project, network):
   # we then select an ip-address on the provider subnet's ip address range.
   # finally you can create a router using all the pieces that links your new network to the external network.
   n = create_network(domain_name, project_name, network[NAME], external)
-  print('\tnetwork:', n)
+  print('network:', n)
   s = create_subnet.create_subnet(domain_name, project_name, network[NAME], n['id'], network[CIDR])
   p = create_network(domain_name, project_name, network[PROVIDER])
-  print('\tprovider network:', p)
+  print('provider network:', p)
   ps_id = p['subnets'][0]
-  print('\tprovider subnet id:', ps_id)
+  print('provider subnet id:', ps_id)
   ps = create_subnet.create_subnet(domain_name, project_name, ps_id)
   cidr = ps['cidr']
   a = select_ip(cidr)
@@ -40,16 +40,16 @@ def create_network(domain, project, name, is_external=False):
   otherwise we create a new network.
   '''
 
-  print('\tcreate_network(domain, project, name, is_external)', domain, project, name, is_external)
+  print('create_network(domain, project, name, is_external)', domain, project, name, is_external)
   try:
     client = users_utility.create_neutron_client(domain, project)
     # find network:
     netz = client.list_networks()['networks']
-    print('\tcreate_network: netz: {}'.format(netz))
+    print('create_network: netz: {}'.format(netz))
     networks = list(filter(lambda a : a['name'] == name, netz))
     numNetworks = len(networks)
 
-    print('\tcreate_network: networks found {}'.format(numNetworks))
+    print('create_network: networks found {}'.format(numNetworks))
     if numNetworks == 1:
       return networks[0]
     elif numNetworks == 0:
@@ -62,12 +62,12 @@ def create_network(domain, project, name, is_external=False):
 
 
 def select_ip(cidr):
-  print('\tselect_ip(cidr):', cidr)
+  print('select_ip(cidr):', cidr)
   ar = cidr.split('/')
   ip = ar[0]
   rg = ar[1]
   c = ip.split('.')
-  print('\tselect_ip: ip, r', ip, rg)
+  print('select_ip: ip, r', ip, rg)
   if (rg == '24'): #subnet range /24 means the last value 0 can be replaced with any value within 0-255
     return c[0] + "." + c[1] + "." + c[2] + "." + str(random.randint(0,256))
   else:
