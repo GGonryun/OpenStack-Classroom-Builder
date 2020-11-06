@@ -17,12 +17,12 @@ def create_router(domain, project, name, external_network_id, external_subnet_id
     print('\treceived response:', response)
     router = response['router']
     if internal_subnet_id:
-      interface = client.add_interface_router(router, internal_subnet_id)
+      interface = client.add_interface_router(router, {'subnet_id': internal_subnet_id})
       print('\tcreated internal interface', interface)
     return router
   except Exception as ex:
       print("\tcreate_router: an error has occured", ex, domain, project, name, external_network_id,  external_subnet_id, external_ip_address, internal_subnet_id)
-
+    return None
 #run: 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
