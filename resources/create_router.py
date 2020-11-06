@@ -36,8 +36,8 @@ if __name__ == '__main__':
   args = parser.parse_args()
 
   if args.domain and args.project and args.name and args.external_nid and args.external_sid and args.internal_sid :
-      print(create_router(args.domain, arg.project, args.name, args.external_nid, args.external_sid, args.ip, args.internal_sid))
+      print(create_router(args.domain, args.project, args.name, args.external_nid, args.external_sid, args.ip, args.internal_sid))
   elif args.domain and args.project and args.name and args.external_nid and args.external_sid and args.ip:
-      print(create_router(args.domain, arg.project, args.name, None, args.external_nid, args.external_sid, args.ip))
+      print(create_router(args.domain, args.project, args.name, None, args.external_nid, args.external_sid, args.ip))
   else:
       raise Exception('create_router.py incorrect usage')
