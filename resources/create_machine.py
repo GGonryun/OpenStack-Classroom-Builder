@@ -43,7 +43,7 @@ def create_project_machine(ledger, machine):
 
 
 def get_flavor_id(client, flavor_name):
-  flavors = list(filter(lambda f : f['name'] == flavor_name), client.flavors.list())
+  flavors = list(filter(lambda f : f['name'] == flavor_name, client.flavors.list()))
   print('found flavors', flavors)
 
   n = len(flavors)
