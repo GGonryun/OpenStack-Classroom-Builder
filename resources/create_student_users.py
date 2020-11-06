@@ -68,9 +68,9 @@ def create_student_users(rows, admin_username=None):
             user = create_single_user(row, project_id)
         added_user = add_user_to_group(username, group_id, row)
         created_users.append(user)
-    
     #print all the created users 
     pprint.pprint(created_users)
+    return created_users
 
 
 def create_single_user(row, project_id):
@@ -87,7 +87,6 @@ def create_single_user(row, project_id):
     return user
 
 
-
 def add_user_to_group(username, group_id, row):
     '''
     Add a single student user to their designated group
@@ -101,6 +100,7 @@ def add_user_to_group(username, group_id, row):
     else:
         raise Exception('User does not exist')
     return user
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
