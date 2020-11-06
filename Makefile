@@ -29,4 +29,4 @@ subnet:
 	python ./resources/create_subnet.py --domain $(DOMAIN) --project $(PROJECT) --name $(NAME) --network-id $(NID) --cidr 10.10.10.0/24
 
 router:
-	python ./resources/create_router.py --domain $(DOMAIN) --project $(PROJECT) --name $(NAME) --network_id $(NID) --subnet-id $(SID) --ip $(IP)
+	python ./resources/create_router.py --domain $(DOMAIN) --project $(PROJECT) --name $(NAME) --network-id $(NID) --subnet-id $(SID) --ip $(IP)
