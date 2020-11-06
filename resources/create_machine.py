@@ -49,6 +49,7 @@ def get_flavor_id(client, flavor_name):
 
   n = len(flavor)
   if n == 1:
+    print('flavor', flavor[0])
     i = flavor[0].id
     print('returning flavor', flavor[0].i)
     return i
