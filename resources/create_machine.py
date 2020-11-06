@@ -32,7 +32,7 @@ def create_project_machine(ledger, machine):
   for num in range(0, int(instances)):
     n = num + 1
     project = ledger[PROJECT].name
-    name = project + "-" + machine[NAME] + "-" + n
+    name = project + "-" + machine[NAME] + "-" + str(n)
     return create_machine(ledger[DOMAIN].name, project, student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], ledger[NETWORKS][ID])
 
 
