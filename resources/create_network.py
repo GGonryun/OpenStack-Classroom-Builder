@@ -50,7 +50,7 @@ def create_network(domain, project, name, is_external):
     if numNetworks == 1:
       return networks[0]
     elif numNetworks == 0:
-      return client.create_network({'network': {'name': name, 'admin_state_up': True, 'router:external': is_external}})
+      return client.create_network({'network': {'name': name, 'admin_state_up': True, 'router:external': is_external}})['network']
     else:
       return None
 
