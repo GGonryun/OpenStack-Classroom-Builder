@@ -23,7 +23,7 @@ def create_student_machine(ledger, machine):
     for num in range(0, int(instances)):
       n = num + 1
       name = username + "-" + machine[NAME] + "-" + str(n)
-      return create_machine(ledger[DOMAIN][NAME], ledger[PROJECT][NAME], student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], ledger[NETWORKS][ID])
+      return create_machine(ledger[DOMAIN].name, ledger[PROJECT].name, student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], ledger[NETWORKS][ID])
 
 
 def create_project_machine(ledger, machine):
@@ -31,9 +31,9 @@ def create_project_machine(ledger, machine):
   print('create_project_machine: machine, instances: {}, {}'.format(machine, instances))
   for num in range(0, int(instances)):
     n = num + 1
-    project = ledger[PROJECT][NAME]
+    project = ledger[PROJECT].name
     name = project + "-" + machine[NAME] + "-" + n
-    return create_machine(ledger[DOMAIN][NAME], project, student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], ledger[NETWORKS][ID])
+    return create_machine(ledger[DOMAIN].name, project, student[USERNAME], student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], ledger[NETWORKS][ID])
 
 
 def create_machine(domain, project, username, password, name, image, flavor, network_id):
