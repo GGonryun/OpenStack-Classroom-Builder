@@ -13,6 +13,8 @@ Network:
   # The name of another network to use as our provider network.
     Provider: <External Network Name> 
     Type: <External|Internal>
+    # CIDR Format for the subnet to attach to the network
+    Address: <CIDR>
 
 # Each line is a csv of a student.
 Students:
@@ -21,4 +23,4 @@ Students:
 # Each line is a csv of a VM.
 Machines:
   - <Name>,<Instances>,<Image>,<Flavor>,<Network>
-  - Test,1,CirrOS,Small,Internet Service Network
+  - Test,1,CirrOS,Small,External_Network

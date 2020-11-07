@@ -5,7 +5,7 @@ import users_utility
 import random
 
 NAME = 'Name'
-CIDR = 'Address'
+CIDR = 'Subnet'
 PROVIDER = 'Provider'
 USERNAME = 'Username'
 EXTERNAL = 'External'
