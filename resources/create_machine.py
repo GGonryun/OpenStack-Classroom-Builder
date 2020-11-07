@@ -56,8 +56,10 @@ def get_flavor_id(client, flavor_name):
     raise Exception('invalid flavor name', flavor_name)
 
 
-def get_image_id(client, image_name):
-  image = client.images.find(name=image_name)
+def get_image_id(image_name):
+  client = users_utility.create_glance_client()
+  images = client.images.list()
+  image = filter(lambda i : i.name == image_name, images)
   print('found image', image)
 
   if image:

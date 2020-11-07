@@ -3,6 +3,7 @@ from keystoneauth1 import session
 from keystoneclient.v3 import client as k_client
 from novaclient import client as n_client
 from neutronclient.v2_0 import client as e_client
+from glanceclient.v2 import client as g_client
 import string
 import random
 import sys
@@ -91,6 +92,23 @@ def create_neutron_client(domain, project):
                       project_domain_name=domain)
     sess = session.Session(auth=auth)
     return e_client.Client(session=sess)
+
+
+def create_glance_client(domain, project):
+    '''
+    The neutron client operates at the project-level and uses 
+    environment variables for an admin account.
+    You must first add the admin account before modifying 
+    a project's network resources.
+    '''
+    auth = v3.Password(auth_url=env(OS_AUTH_URL),
+                      username=env(OS_USERNAME),
+                      password=env(OS_PASSWORD),
+                      project_name=env(OS_PROJECT),
+                      user_domain_name=env(OS_USER_DOMAIN),
+                      project_domain_name=env(OS_USER_DOMAIN))
+    sess = session.Session(auth=auth)
+    return g_client.Client(session=sess)
 
 
 def get_user(username):
