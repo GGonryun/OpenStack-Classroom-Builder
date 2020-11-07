@@ -18,7 +18,6 @@ ID = 'id'
 
 
 def create_student_machine(ledger, machine): 
-  print('create_student_machine(ledger, machine): {}, {}'.format(ledger, machine))
   for student in ledger[STUDENTS]:
     instances = machine[INSTANCES]
     print('create_student_machine: machine, student, instances: {}, {}, {}'.format(machine, student, instances))
@@ -31,7 +30,6 @@ def create_student_machine(ledger, machine):
 
 
 def create_project_machine(ledger, machine):
-  print('create_project_machine: ledger:', ledger)
   instances = machine[INSTANCES]
   print('create_project_machine: machine, instances: {}, {}'.format(machine, instances))
   for num in range(0, int(instances)):
@@ -73,7 +71,7 @@ def create_machine(domain, project, username, password, name, image, flavor, net
   try:
     client = users_utility.create_nova_client(None, None, domain, project)
     f = get_flavor_id(client, flavor)
-    i = get_image_id(client, image)
+    i = get_image_id(image)
     return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }])
   except Exception as ex:
     print("an error has occured creating machine {}, {}, {}, {}, {}, {}, {}, {}, {}".format(ex, domain, project, username, password, name, image, flavor, network_id))
