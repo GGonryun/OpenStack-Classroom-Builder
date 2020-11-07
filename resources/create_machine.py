@@ -18,28 +18,32 @@ ID = 'id'
 
 
 def create_student_machine(ledger, machine): 
+  m = []
   for student in ledger[STUDENTS]:
     instances = machine[INSTANCES]
     print('create_student_machine: machine, student, instances: {}, {}, {}'.format(machine, student, instances))
-    for num in range(int(instances) + 1):
+    for num in range(int(instances)):
       print(num)
       i = num + 1
       username = student[USERNAME]
       name = username + "-" + machine[NAME] + "-" + str(i)
       n = create_network.create_network(ledger[DOMAIN].name, ledger[PROJECT].name, machine[NETWORK])
-      return create_machine(ledger[DOMAIN].name, ledger[PROJECT].name, username, student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], n['id'])
+      m.append(create_machine(ledger[DOMAIN].name, ledger[PROJECT].name, username, student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], n['id']))
+  return m
 
 
 def create_project_machine(ledger, machine):
+  m = []
   instances = machine[INSTANCES]
   print('create_project_machine: machine, instances: {}, {}'.format(machine, instances))
-  for num in range(int(instances) + 1):
+  for num in range(int(instances)):
     print(num)
     i = num + 1
     project = ledger[PROJECT].name
     name = project + "-" + machine[NAME] + "-" + str(i)
     n = create_network.create_network(ledger[DOMAIN].name, ledger[PROJECT].name, machine[NETWORK])
-    return create_machine(ledger[DOMAIN].name, project, None, None, name, machine[IMAGE], machine[FLAVOR], n['id'])
+    m.append(create_machine(ledger[DOMAIN].name, project, None, None, name, machine[IMAGE], machine[FLAVOR], n['id']))
+  return m
 
 
 def get_flavor_id(client, flavor_name):
