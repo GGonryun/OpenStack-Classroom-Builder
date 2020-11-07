@@ -14,7 +14,7 @@ Network:
     Provider: <External Network Name> 
     Type: <External|Internal>
     # CIDR Format for the subnet to attach to the network
-    Address: <CIDR>
+    Subnet: <CIDR>
 
 # Each line is a csv of a student.
 Students:
