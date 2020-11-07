@@ -51,6 +51,10 @@ def start():
   ledger[NETWORKS] = map(partial(create_network.create_linked_network, ledger[DOMAIN], ledger[PROJECT]), classroom[NETWORKS])
   ledger[STUDENTS] = map(partial(create_student.create_student, ledger), classroom[STUDENTS])
   ledger[MACHINES] = map(partial(create_machine.create_project_machine, ledger), classroom[MACHINES][PER_PROJECT]) + map(partial(create_machine.create_student_machine, ledger), classroom[MACHINES][PER_STUDENT])
+  print('\n')
+  print('LEDGER:')
+  print('\n')
+  print(ledger)
 
 if __name__ == '__main__': # Program entrance
     print ('Testing engine.py {}'.format(CLASSROOM_FILE))

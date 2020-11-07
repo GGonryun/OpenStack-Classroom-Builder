@@ -3,8 +3,9 @@ PROJECT = Test
 NAME = test
 USERNAME = admin
 ROLE = admin
+FILE = ./files/demo.classroom.yaml
 
-get:
+update:
 	git reset --hard HEAD
 	git pull
 	
@@ -14,7 +15,7 @@ send:
 	git push
 
 classroom:
-	python engine.py ./files/demo.classroom.yaml
+	python engine.py $(FILE)
 
 domain:
 	python ./resources/create_domain.py --id $(DOMAIN)
