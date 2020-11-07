@@ -15,6 +15,7 @@ send:
 	git push
 
 classroom:
+	. ~/admin.sh
 	python engine.py $(FILE)
 
 domain:
