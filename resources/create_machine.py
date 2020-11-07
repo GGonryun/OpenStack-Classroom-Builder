@@ -21,7 +21,7 @@ def create_student_machine(ledger, machine):
   for student in ledger[STUDENTS]:
     instances = machine[INSTANCES]
     print('create_student_machine: machine, student, instances: {}, {}, {}'.format(machine, student, instances))
-    for num in range(0, int(instances)):
+    for num in range(0, int(instances) + 1):
       i = num + 1
       username = student[USERNAME]
       name = username + "-" + machine[NAME] + "-" + str(i)
@@ -32,12 +32,13 @@ def create_student_machine(ledger, machine):
 def create_project_machine(ledger, machine):
   instances = machine[INSTANCES]
   print('create_project_machine: machine, instances: {}, {}'.format(machine, instances))
-  for num in range(0, int(instances)):
+  for num in range(0, int(instances) + 1):
     i = num + 1
     project = ledger[PROJECT].name
     name = project + "-" + machine[NAME] + "-" + str(i)
     n = create_network.create_network(ledger[DOMAIN].name, ledger[PROJECT].name, machine[NETWORK])
     return create_machine(ledger[DOMAIN].name, project, None, None, name, machine[IMAGE], machine[FLAVOR], n['id'])
+
 
 def get_flavor_id(client, flavor_name):
   f = client.flavors.list()
@@ -64,6 +65,7 @@ def get_image_id(image_name):
     return image[0]['id']
   else:
     raise Exception('cannot find image', image)
+
 
 def create_machine(domain, project, username, password, name, image, flavor, network_id):
   print("create_machine(domain, project, username, password, name, image, flavor, network_id):", domain, project, username, password, name, image, flavor, network_id)
