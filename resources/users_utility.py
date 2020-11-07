@@ -94,7 +94,7 @@ def create_neutron_client(domain, project):
     return e_client.Client(session=sess)
 
 
-def create_glance_client(domain, project):
+def create_glance_client():
     '''
     The neutron client operates at the project-level and uses 
     environment variables for an admin account.
