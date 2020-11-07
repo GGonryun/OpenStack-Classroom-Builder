@@ -57,11 +57,11 @@ def get_flavor_id(client, flavor_name):
 def get_image_id(image_name):
   client = users_utility.create_glance_client()
   images = client.images.list()
-  image = filter(lambda i : i.name == image_name, images)
+  image = list(filter(lambda i : i.name == image_name, images))
   print('found image', image)
 
-  if image:
-    return image.id
+  if len(image) == 1:
+    return image[0]['id']
   else:
     raise Exception('cannot find image', image)
 
