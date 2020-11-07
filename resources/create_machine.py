@@ -32,7 +32,7 @@ def create_student_machine(ledger, machine):
 def create_project_machine(ledger, machine):
   instances = machine[INSTANCES]
   print('create_project_machine: machine, instances: {}, {}'.format(machine, instances))
-  for num in range(0, int(instances) + 1):
+  for num in range(int(instances) + 1):
     i = num + 1
     project = ledger[PROJECT].name
     name = project + "-" + machine[NAME] + "-" + str(i)
