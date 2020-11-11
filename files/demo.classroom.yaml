@@ -9,9 +9,6 @@ Networks:
 Students:
   - Test1,Test1,Test1
   - Test2,Test2,Test2
-  - Test3,Test3,Test3
-  - Test4,Test4,Test4
-  - Test5,Test5,Test5
 Machines:
   PerProject:
     - ProjectServer,2,CentOS 7,large,Test
