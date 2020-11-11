@@ -77,7 +77,7 @@ def machine_csv_to_dict(csv):
     return None
 
 def safeAccess(array, index):
-  if(index > len(array) or index < 0):
+  if(index >= len(array) or index < 0):
     return None
   return array[index]
 
