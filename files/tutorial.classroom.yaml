@@ -26,4 +26,3 @@ Machines:
     # Windows images only: specify a password to set as the first time log-on password
     - <Name>,<Instances>,<Image>,<Flavor>,<Network>,<Optional:Password>
     - Test,1,CirrOS,Small,External_Network,AdminUserPassword
-  PerUser:

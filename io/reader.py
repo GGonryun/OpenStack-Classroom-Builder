@@ -46,8 +46,10 @@ def clean_up(data):
     
   if(machines != None):
     print("\t\tclean_up: cleaning up machines".format(machines))
-    clone[MACHINES_KEY][PER_PROJECT_KEY] = list(filterNonEmpty(map(machine_csv_to_dict, clone[MACHINES_KEY][PER_PROJECT_KEY])))
-    clone[MACHINES_KEY][PER_USER_KEY] = list(filterNonEmpty(map(machine_csv_to_dict, clone[MACHINES_KEY][PER_USER_KEY])))
+    if clone[MACHINES_KEY][PER_PROJECT_KEY]:
+      clone[MACHINES_KEY][PER_PROJECT_KEY] = list(filterNonEmpty(map(machine_csv_to_dict, clone[MACHINES_KEY][PER_PROJECT_KEY])))
+    if clone[MACHINES_KEY][PER_USER_KEY]:
+      clone[MACHINES_KEY][PER_USER_KEY] = list(filterNonEmpty(map(machine_csv_to_dict, clone[MACHINES_KEY][PER_USER_KEY])))
 
   return clone
 
