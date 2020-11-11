@@ -4,6 +4,3 @@
 3. TODO: Run the command `make validate ./path/to/your/classroom.yaml` to validate your yaml file before creating your classroom.
 4. Run the command `make classroom ./path/to/your/classroom.yaml`, without a path specified, it will deploy the test classroom.
 5. All steps are idempotent except the final virtual machine step, if you re-run the same classroom script you will always receive a new set of machines, but will always use existing users, networks, and projects.
-
-vif_plugging_is_fatal=false
-vif_plugging_timeout=0
