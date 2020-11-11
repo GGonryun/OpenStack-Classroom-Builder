@@ -3,7 +3,7 @@ Project:
   Name: Test
 Networks:
   - Name: Test
-    Provider: Cloud-Provider
+    Provider: provider
     External: True
     Subnet: 10.10.10.0/24
 Students:
