@@ -22,5 +22,8 @@ Students:
   - Campos,Miguel,mcampos
 # Each line is a csv of a VM.
 Machines:
-  - <Name>,<Instances>,<Image>,<Flavor>,<Network>
-  - Test,1,CirrOS,Small,External_Network
+  PerProject:
+    # Windows images only: specify a password to set as the first time log-on password
+    - <Name>,<Instances>,<Image>,<Flavor>,<Network>,<Optional:Password>
+    - Test,1,CirrOS,Small,External_Network,AdminUserPassword
+  PerUser:

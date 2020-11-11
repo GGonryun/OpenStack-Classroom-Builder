@@ -15,5 +15,4 @@ Students:
 Machines:
   PerProject:
     - ProjectServer,2,CentOS 7,large,Test
-  PerUser:
-    - UserServer,2,CentOS 7,large,Test
+    - WindowsWithPassword,2,Windows-10-Pro,xlarge,Test,Password1234

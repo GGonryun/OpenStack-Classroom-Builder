@@ -28,7 +28,7 @@ def create_student_machine(ledger, machine):
       username = student[USERNAME]
       name = username + "-" + machine[NAME] + "-" + str(i)
       n = create_network.create_network(ledger[DOMAIN].name, ledger[PROJECT].name, machine[NETWORK])
-      m.append(create_machine(ledger[DOMAIN].name, ledger[PROJECT].name, username, student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], n['id']))
+      m.append(create_machine(ledger[DOMAIN].name, ledger[PROJECT].name, username, student[PASSWORD], name, machine[IMAGE], machine[FLAVOR], machine[PASSWORD], n['id']))
   return m
 
 
@@ -42,7 +42,7 @@ def create_project_machine(ledger, machine):
     project = ledger[PROJECT].name
     name = project + "-" + machine[NAME] + "-" + str(i)
     n = create_network.create_network(ledger[DOMAIN].name, ledger[PROJECT].name, machine[NETWORK])
-    m.append(create_machine(ledger[DOMAIN].name, project, None, None, name, machine[IMAGE], machine[FLAVOR], n['id']))
+    m.append(create_machine(ledger[DOMAIN].name, project, None, None, name, machine[IMAGE], machine[FLAVOR], machine[PASSWORD], n['id']))
   return m
 
 
@@ -73,17 +73,20 @@ def get_image_id(image_name):
     raise Exception('cannot find image', image)
 
 
-def create_machine(domain, project, username, password, name, image, flavor, network_id):
-  print("create_machine(domain, project, username, password, name, image, flavor, network_id):", domain, project, username, password, name, image, flavor, network_id)
+def create_machine(domain, project, username, password, name, image, flavor, password, network_id):
+  print("create_machine(domain, project, username, password, name, image, flavor, password, network_id):", domain, project, username, password, name, image, flavor, password, network_id)
   
   try:
     client = users_utility.create_nova_client(None, None, domain, project)
     # flavor names must be lowercase, this convention is enforced in openstack, all our flavor names are lower-case only.
     f = get_flavor_id(client, flavor.lower())
     i = get_image_id(image)
-    return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }])
+    if(password):
+      return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_passphrase': password })
+    else:
+      return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }])
   except Exception as ex:
-    errorMessage = "an error has occured creating machine {}, {}, {}, {}, {}, {}, {}, {}, {}".format(ex, domain, project, username, password, name, image, flavor, network_id)
+    errorMessage = "an error has occured creating machine {}, {}, {}, {}, {}, {}, {}, {}, {}, {}".format(ex, domain, project, username, password, name, image, flavor, password, network_id)
     print(errorMessage)
     return errorMessage
 
