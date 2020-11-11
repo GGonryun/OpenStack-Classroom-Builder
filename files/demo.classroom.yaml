@@ -13,3 +13,4 @@ Machines:
   PerProject:
     - ProjectServer,2,CentOS 7,large,Test
     - WindowsWithPassword,2,Windows-10-Pro,xlarge,Test,Password1234
+    - WindowsCloudWithPassword,2,wins2016,xlarge,Test,Password1234
