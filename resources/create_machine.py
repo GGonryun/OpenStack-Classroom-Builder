@@ -78,12 +78,14 @@ def create_machine(domain, project, username, password, name, image, flavor, net
   
   try:
     client = users_utility.create_nova_client(None, None, domain, project)
-    f = get_flavor_id(client, flavor)
+    # flavor names must be lowercase, this convention is enforced in openstack, all our flavor names are lower-case only.
+    f = get_flavor_id(client, flavor.lower())
     i = get_image_id(image)
     return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }])
   except Exception as ex:
-    print("an error has occured creating machine {}, {}, {}, {}, {}, {}, {}, {}, {}".format(ex, domain, project, username, password, name, image, flavor, network_id))
-    return None
+    errorMessage = "an error has occured creating machine {}, {}, {}, {}, {}, {}, {}, {}, {}".format(ex, domain, project, username, password, name, image, flavor, network_id)
+    print(errorMessage)
+    return errorMessage
 
 
 if __name__ == '__main__':
