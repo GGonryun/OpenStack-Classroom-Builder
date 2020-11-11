@@ -50,7 +50,15 @@ def start():
   ledger[PROJECT] = create_project.create_project(classroom[PROJECT][NAME], ADMIN, ADMIN)
   ledger[NETWORKS] = map(partial(create_network.create_linked_network, ledger[DOMAIN], ledger[PROJECT]), classroom[NETWORKS])
   ledger[STUDENTS] = map(partial(create_student.create_student, ledger), classroom[STUDENTS])
-  ledger[MACHINES] = map(partial(create_machine.create_project_machine, ledger), classroom[MACHINES][PER_PROJECT]) + map(partial(create_machine.create_student_machine, ledger), classroom[MACHINES][PER_STUDENT])
+
+  mp = None
+  ms = None
+  if(PER_PROJECT in classroom[MACHINES]):
+    mp = list(map(partial(create_machine.create_project_machine, ledger), classroom[MACHINES][PER_PROJECT]))
+  if(PER_STUDENT in classroom[MACHINES]):
+    ms = list(map(partial(create_machine.create_student_machine, ledger), classroom[MACHINES][PER_STUDENT]))
+  
+  ledger[MACHINES] = { PER_PROJECT: mp, PER_STUDENT: ms } 
   print('\n')
   print('LEDGER:')
   print('\n')
