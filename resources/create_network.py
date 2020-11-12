@@ -30,7 +30,8 @@ def create_linked_network(domain, project, network):
   ps = create_subnet.create_subnet(domain_name, project_name, ps_id)
   cidr = ps['cidr']
   a = select_ip(cidr)
-  r = create_router.create_router(domain_name, project_name, network[NAME], p['id'], ps_id, a, s['id'])
+  k = network[PROVIDER] + "-Router"
+  r = create_router.create_router(domain_name, project_name, k, p['id'], ps_id, a, s['id'])
   ln.append(n)
   return ln
 
