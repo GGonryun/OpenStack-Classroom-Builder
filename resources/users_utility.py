@@ -69,9 +69,9 @@ def create_nova_client(username, password, domain, project):
     Uses environment variables.
     '''
     global nova_session
+    print('create_nova_client(username, password, domain, project)', username, password, domain, project)
     username = username if username else env(OS_USERNAME)
     password = password if password else env(OS_PASSWORD)
-    print('authenticating as', username, password)
     key = username + domain + project
     if(key not in nova_session):
         auth = v3.Password(auth_url=env(OS_AUTH_URL),

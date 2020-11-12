@@ -78,13 +78,13 @@ def create_machine(domain, project, username, password, name, image, flavor, mac
     i = get_image_id(image)
     # This ID is for Windows 10 Pro
     if(i == '49b579ed-37fc-47fc-87b8-e35ff62407e4'):
-      return client.servers.create(availability_zone='nova', name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': 'Password1234' })
+      return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': 'Password1234' })
     # This ID is the windows 2016 server image on OpenStack.
     elif(i == '847463d2-b7f6-4ed7-979a-8ed9301ce0c4'):
       # We should specify the appropriate availibility_zone for windows server 2016 images.
       return client.servers.create(availability_zone='win', name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': 'Password1234' })
     else:
-      return client.servers.create(availability_zone='nova', name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }])
+      return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }])
   except Exception as ex:
     return "an error has occured creating machine {}, {}, {}, {}, {}, {}, {}, {}, {}, {}".format(ex, domain, project, username, password, name, image, flavor, machine_pass, network_id)
 
