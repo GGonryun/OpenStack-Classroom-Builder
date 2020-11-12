@@ -87,8 +87,10 @@ def create_machine(domain, project, username, password, name, image, flavor, mac
       # This ID is the windows 2016 server image on OpenStack.
       print('image id:', i)
       if(i == '847463d2-b7f6-4ed7-979a-8ed9301ce0c4'):
+        print('windows server 2016')
         return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': machine_pass }, availibility_zone='win')
       else:
+        print('windows image')
         return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': machine_pass })
     else:
       return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }])
