@@ -5,11 +5,11 @@ Networks:
   - Name: Test1
     Provider: Cloud-Provider
     External: True
-    Subnet: 10.10.10.0/24
+    Subnet: 10.10.1.0/24
   - Name: Test2
     Provider: Cloud-Provider
     External: True
-    Subnet: 10.10.10.0/24
+    Subnet: 10.10.2.0/24
 Students:
   - Test1,Test1,Test1
   - Test2,Test2,Test2
