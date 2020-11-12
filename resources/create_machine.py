@@ -82,6 +82,7 @@ def create_machine(domain, project, username, password, name, image, flavor, mac
     f = get_flavor_id(client, flavor.lower())
     i = get_image_id(image)
     if(machine_pass):
+      print('using custom password')
       return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_passphrase': machine_pass })
     else:
       return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }])
