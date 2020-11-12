@@ -20,7 +20,7 @@ ID = 'id'
 def create_student_machine(ledger, machine): 
   m = []
   for student in ledger[STUDENTS]:
-    print('create_student_machine(ledger, machine, student)', ledger, machine, student)
+    print('create_student_machine(machine, student)', machine, student)
     instances = machine[INSTANCES]
     for num in range(int(instances)):
       i = num + 1
@@ -32,7 +32,7 @@ def create_student_machine(ledger, machine):
 
 
 def create_project_machine(ledger, machine):
-  print('create_project_machine(ledger, machine)', ledger, machine)
+  print('create_project_machine(machine)', machine)
   m = []
   instances = machine[INSTANCES]
   for num in range(int(instances)):
