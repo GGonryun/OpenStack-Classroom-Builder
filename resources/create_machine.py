@@ -82,8 +82,14 @@ def create_machine(domain, project, username, password, name, image, flavor, mac
     f = get_flavor_id(client, flavor.lower())
     i = get_image_id(image)
     if(machine_pass):
-      print('using custom password')
-      return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': machine_pass })
+      # When we specify a machine pass, chances are we are creating a windows image. 
+      # We should specify the appropriate availibility_zone for windows server 2016 images.
+      # This ID is the windows 2016 server image on OpenStack.
+      print('image id:', i)
+      if(i == '847463d2-b7f6-4ed7-979a-8ed9301ce0c4'):
+        return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': machine_pass }, availibility_zone='win')
+      else:
+        return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': machine_pass })
     else:
       return client.servers.create(name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }])
   except Exception as ex:
