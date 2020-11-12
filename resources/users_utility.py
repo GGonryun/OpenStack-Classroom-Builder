@@ -47,6 +47,7 @@ def create_keystone_client():
     Utility function that creates an authenticated keystone client.
     Uses environment variables.
     '''
+    global keystone_session
     if keystone_session == None:
         auth = v3.Password(auth_url=env(OS_AUTH_URL),
                         username=env(OS_USERNAME),
@@ -67,6 +68,7 @@ def create_nova_client(username, password, domain, project):
     The nova client operates on VM's specific to a users account.
     Uses environment variables.
     '''
+    global nova_session
     username = username if username else env(OS_USERNAME)
     password = password if password else env(OS_PASSWORD)
     print('authenticating as', username, password)
@@ -91,6 +93,7 @@ def create_neutron_client(domain, project):
     You must first add the admin account before modifying 
     a project's network resources.
     '''
+    global neutron_session
     key = domain + project
     if(key not in neutron_session):
         auth = v3.Password(auth_url=env(OS_AUTH_URL),
@@ -112,6 +115,7 @@ def create_glance_client():
     You must first add the admin account before modifying 
     a project's network resources.
     '''
+    global glance_session
     if(glance_session == None):
         auth = v3.Password(auth_url=env(OS_AUTH_URL),
                         username=env(OS_USERNAME),
