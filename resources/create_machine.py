@@ -20,10 +20,9 @@ ID = 'id'
 def create_student_machine(ledger, machine): 
   m = []
   for student in ledger[STUDENTS]:
+    print('create_student_machine(ledger, machine, student)', ledger, machine, student)
     instances = machine[INSTANCES]
-    print('create_student_machine: machine, student, instances: {}, {}, {}'.format(machine, student, instances))
     for num in range(int(instances)):
-      print(num)
       i = num + 1
       username = student[USERNAME]
       name = username + "-" + machine[NAME] + "-" + str(i)
@@ -33,11 +32,10 @@ def create_student_machine(ledger, machine):
 
 
 def create_project_machine(ledger, machine):
+  print('create_project_machine(ledger, machine)', ledger, machine)
   m = []
   instances = machine[INSTANCES]
-  print('create_project_machine: machine, instances: {}, {}'.format(machine, instances))
   for num in range(int(instances)):
-    print(num)
     i = num + 1
     project = ledger[PROJECT].name
     name = project + "-" + machine[NAME] + "-" + str(i)
@@ -47,25 +45,22 @@ def create_project_machine(ledger, machine):
 
 
 def get_flavor_id(client, flavor_name):
+  print('get_flavor_id(client, flavor_name)', client, flavor_name)
   f = client.flavors.list()
-  print('found flavors', f)
   flavor = list(filter(lambda f : f.name == flavor_name, f))
 
   n = len(flavor)
   if n == 1:
-    print('flavor', flavor[0])
-    i = flavor[0].id
-    print('returning flavor', flavor[0].id)
-    return i
+    return flavor[0].id
   else:
     raise Exception('invalid flavor name', flavor_name)
 
 
 def get_image_id(image_name):
+  print('get_image_id(image_name)', image_name)
   client = users_utility.create_glance_client()
   images = client.images.list()
   image = list(filter(lambda i : i.name == image_name, images))
-  print('found image', image)
 
   if len(image) == 1:
     return image[0]['id']
@@ -81,24 +76,17 @@ def create_machine(domain, project, username, password, name, image, flavor, mac
     # flavor names must be lowercase, this convention is enforced in openstack, all our flavor names are lower-case only.
     f = get_flavor_id(client, flavor.lower())
     i = get_image_id(image)
-    if(machine_pass):
-      # When we specify a machine pass, chances are we are creating a windows image. 
+    # This ID is for Windows 10 Pro
+    if(i == '49b579ed-37fc-47fc-87b8-e35ff62407e4'):
+      return client.servers.create(availability_zone='nova', name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': 'Password1234' })
+    # This ID is the windows 2016 server image on OpenStack.
+    elif(i == '847463d2-b7f6-4ed7-979a-8ed9301ce0c4'):
       # We should specify the appropriate availibility_zone for windows server 2016 images.
-      # This ID is the windows 2016 server image on OpenStack.
-      print('image id:', i)
-      if(i == '847463d2-b7f6-4ed7-979a-8ed9301ce0c4'):
-        server = client.servers.create(availability_zone='win', name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': machine_pass })
-        print('windows server 2016', server)
-        return server
-      else:
-        print('windows image')
-        return client.servers.create(availability_zone='nova', name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': machine_pass })
+      return client.servers.create(availability_zone='win', name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }], meta={ 'admin_pass': 'Password1234' })
     else:
       return client.servers.create(availability_zone='nova', name=name, image=i, flavor=f, nics=[{ 'net-id': network_id }])
   except Exception as ex:
-    errorMessage = "an error has occured creating machine {}, {}, {}, {}, {}, {}, {}, {}, {}, {}".format(ex, domain, project, username, password, name, image, flavor, machine_pass, network_id)
-    print(errorMessage)
-    return errorMessage
+    return "an error has occured creating machine {}, {}, {}, {}, {}, {}, {}, {}, {}, {}".format(ex, domain, project, username, password, name, image, flavor, machine_pass, network_id)
 
 
 if __name__ == '__main__':
