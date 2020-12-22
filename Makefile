@@ -6,8 +6,7 @@ ROLE = admin
 FILE = ./files/demo.classroom.yaml
 
 update:
-	git reset --hard HEAD
-	git pull
+	git reset --hard origin/main
 	
 send:
 	git add .

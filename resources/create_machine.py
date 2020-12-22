@@ -26,7 +26,7 @@ def create_student_machine(ledger, machine):
     num_instances = int(instances)
     for num in range(num_instances):
       i = num + 1
-    print('create_student_machine() => creating machine #{} out of {}'.format(i, num_instances))
+      print('create_student_machine() => creating machine #{} out of {}'.format(i, num_instances))
       username = student[USERNAME]
       name = username + "-" + machine[NAME] + "-" + str(i)
       n = create_network.create_network(ledger[DOMAIN].name, ledger[PROJECT].name, machine[NETWORK])

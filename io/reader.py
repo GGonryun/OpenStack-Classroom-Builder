@@ -51,7 +51,7 @@ def clean_up(data):
   return clone
 
 def student_csv_to_dict(csv):
-  print("student_csv_to_dict(csv: {csv})".format(csv))
+  print("student_csv_to_dict(csv: {})".format(csv))
   arr = csv.split(',')
   access = partial(safeAccess, arr)
 

@@ -29,18 +29,18 @@ def create_project(project_name, username, user_role):
     # Do a quick check if project exists
     project = users_utility.get_a_project(project_name)
     does_project_exist = project is not None
-    print('create_project(project_name: {}) => does project exist ? {}'.format(does_project_exist))
+    print('create_project(project_name: {}) => does project exist ? {}'.format(project_name, does_project_exist))
     if not does_project_exist:
         project = keystone.projects.create(project_name, 'default')
-    print('create_project(project_name: {}) => using project: {}'.format(project))
+    print('create_project(project_name: {}) => using project: {}'.format(project_name, project))
 
     # check if role exists and create it if it doesn't
     role = users_utility.get_role(user_role)
     does_role_exist = role is not None
-    print('create_project(user_role: {}) => does role exist ? {}'.format(project_name, user_role, does_role_exist))
+    print('create_project(user_role: {}) => does role exist ? {}'.format(user_role, does_role_exist))
     if not does_role_exist:
         role = keystone.roles.create(name=user_role)
-    print('create_project(user_role: {}) => using role {}'.format(user_role, does_role_exist))
+    print('create_project(user_role: {}) => using role {}'.format(user_role, role))
     # add user to project
     user = users_utility.get_user(username)
 
@@ -53,7 +53,6 @@ def create_project(project_name, username, user_role):
     else:
         user_password = users_utility.generate_user_password(username)
         users_utility.create_single_user(username, user_password, project_id, role)
-        
     print('create_project(user_role: {}) => added user to project {} with id: {}'.format(username, project_name, project_id))
     return project
 

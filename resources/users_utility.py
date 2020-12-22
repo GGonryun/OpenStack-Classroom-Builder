@@ -31,6 +31,9 @@ OS_AUTH_URL = 'OS_AUTH_URL'
 OS_USER_DOMAIN = 'OS_USER_DOMAIN_NAME'
 NOVA_API_VERSION = 2
 
+
+
+
 def env(name):
     '''
     Utility function to access environment variables
@@ -133,9 +136,9 @@ def get_user(username):
     users = keystone.users.list(domain='default')
     for user in users:
         if user.name == username:
-    print('get_user(username): => found user with username: {}'.format(username))
+            print('get_user(username: {}): => found user'.format(username))
             return user
-    print('get_user(username) => could not find user with username: {}'.format(username))
+    print('get_user(username: {}) => could not find user'.format(username))
     return None
 
 
@@ -144,19 +147,11 @@ def get_role(name):
     roles = keystone.roles.list(domain='default')
     for role in roles:
         if role.name == name:
-            print('get_role(name): => found role with name: {}'.format(name))
+            print('get_role(name: {}): => found role'.format(name))
 
             return role
-    print('get_role(name): => could not find role with name: {}'.format(name))
+    print('get_role(name: {}): => could not find role'.format(name))
     return None 
-
-
-# Frequently used roles
-ADMIN_ROLE = get_role('admin')
-PROFESSOR_CHUCK = get_user('cbane3')
-ADMIN_USER = get_user('admin')
-STUDENT_ROLE = get_role('Student')
-
 
 def get_projects():
     '''
@@ -182,11 +177,11 @@ def get_a_project(project_name):
         keystone = create_keystone_client()
         projects = list(filter(lambda p : p.name == project_name, keystone.projects.list()))
         numProjects = len(projects)
-        if(numProjects > 0) {
+        if(numProjects > 0):
             project = projects[0]
-            print("get_a_project(project_name: {}) found project => {}".format(project))
+            print("get_a_project(project_name: {}) found project".format(project_name))
             return project
-        }
+        
     except Exception as ex:
         print("unable to find project: {}, {}".format(ex, project_name))
         return None
@@ -201,7 +196,7 @@ def add_user_to_project(role, project_id, user):
     '''
     keystone = create_keystone_client()
     keystone.roles.grant(role, project=project_id, user=user)
-    print('add_user_to_project() => finished adding user to project {} with role {}'.format(project_ID, role))
+    print('add_user_to_project(project_id: {}, role: {}) => finished adding user to project'.format(project_id, role))
 
 
 def get_groups():
@@ -236,7 +231,7 @@ def create_single_user(username, user_password, project_id, role):
      In order for the user to be able to sign in they must be added to a project by being
      given a role.
     '''
-    print('create_single_user(username: {}, user_password: <HIDDEN>, project_id: {}, role: {})'.format(username, project_ID, role))
+    print('create_single_user(username: {}, user_password: <HIDDEN>, project_id: {}, role: {})'.format(username, project_id, role))
     keystone = create_keystone_client()
     user = keystone.users.create(name=username, domain='default', password=user_password,
                                  enabled=True, default_project=project_id)
@@ -263,9 +258,8 @@ def is_admin(username):
         for role in roles:
             if role.name == ADMIN_ROLE.name:
                 success = True
-        else:
     
-    print('is_admin(admin: {}) => success: {}'.format(username, admin))
+    print('is_admin(admin: {}) => ? {}'.format(username, admin))
     return success
 
 
@@ -275,6 +269,7 @@ def add_group_to_project(role, project_id, group_id):
 
     Any users added to the group will have access the projects associated with the group.
     '''
+    print('add_group_to_project(role: {}, project_id {}, group_id {})'.format(role, project_id, group_id))
     keystone = create_keystone_client()
     keystone.roles.grant(role, project=project_id, group=group_id)
     print('add_group_to_project(role: {}, project_id {}, group_id {}) => success'.format(role, project_id, group_id))
@@ -300,3 +295,9 @@ def generate_user_password(username):
     '''
     user_password = generate_hash('plsnohack', username)
     return user_password
+
+# Frequently used roles
+ADMIN_ROLE = get_role('admin')
+PROFESSOR_CHUCK = get_user('cbane3')
+ADMIN_USER = get_user('admin')
+STUDENT_ROLE = get_role('student')
