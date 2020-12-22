@@ -31,17 +31,19 @@ def create_user_sandbox(username, admin_username):
     '''
     Create project and group, then adds group to project with student role
     '''
+    print('create_user_sandbox(username: {}, admin_username: {})'.format(username, admin_username))
     keystone = users_utility.create_keystone_client()
     sandbox_name = 'Sandbox-' + username
     # Check if project exists
     project_id = users_utility.get_a_projectID(sandbox_name)
-    if project_id:
-        print('Project with id: ' + project_id + ' already exists.')
-    else:
+    does_sandbox_exist = project_id is not None
+    print('create_user_sandbox() => does sandbox exist? {}'.format(does_sandbox_exist))
+    if not does_sandbox_exist:
         project_id = keystone.projects.create(sandbox_name, 'default').id
     
     # add specified admin user to student sandbox
     add_admin_to_project(admin_username, project_id)
+    print('create_user_sandbox() => finished creating sandbox'.format(project_id))
     return project_id
 
 
@@ -49,6 +51,10 @@ def add_admin_to_project(admin_username, project_id):
     '''
     Adds admin user to student sandbox project, Otherwise defaults to adding 'admin' user
     '''
+    print('add_admin_to_project(admin_username: {}, project_id: {})'.format(admin_username, project_id))
+
+    is_admin = users_utility.is_admin(admin_username)
+    print('add_admin_to_project(admin_username: {}) => is_admin ? {}'.format(admin_username, is_admin))
     # Check if admin they gave me is actually an admin
     if users_utility.is_admin(admin_username):
         user = users_utility.get_user(admin_username)
@@ -56,29 +62,29 @@ def add_admin_to_project(admin_username, project_id):
         users_utility.add_user_to_project(users_utility.ADMIN_ROLE, project_id, user)
     else:
         # add default 'admin' user to project
-        print('Defaulting to adding the \'admin\' user to project with id: ' + project_id)
         users_utility.add_user_to_project(users_utility.ADMIN_ROLE, project_id, users_utility.ADMIN_USER)
+    print('add_admin_to_project(admin_username: {}) => finihed adding admin to project {}'.format(admin_username, project_id))
 
 
 def create_project_per_student(rows, admin_username):
     '''
     Creates a sandbox project for each user in the CSV file.
     '''
-    created_users = []
+    print("create_project_per_student(rows, admin_username: {})".format(admin_username))
     for row in rows:
         username = row['Username']
         project_id = create_user_sandbox(username, admin_username)
         user = users_utility.get_user(username)
-        if user:
-            print('User: ' + user.name + ' already exists. Adding them to their project')
+        does_user_exist = user is not None
+        print("create_project_per_student()=> username: {} => does user exist ?".format(username, does_user_exist))
+        if does_user_exist:
             users_utility.add_user_to_project(users_utility.STUDENT_ROLE, project_id, user)
         else:
-            print('Creating user: ' + username)
             user = create_single_user(row, project_id)
             users_utility.add_user_to_project(users_utility.STUDENT_ROLE, project_id, user)
-            created_users.append(user)
+        print("create_project_per_student() => username: {} => finished creating user and adding to project".format(username))
+        
     
-    pprint.pprint(created_users)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

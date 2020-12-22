@@ -24,6 +24,7 @@ def create_student_users(rows, admin_username=None):
     Create users with student role and add to project based off 
     of the 'Project' column in the csv file
     '''
+    print("create_student_users(rows: {}, admin_username: {})".format(rows, admin_username))
     keystone = users_utility.create_keystone_client()
     created_users = []
     for row in rows:
@@ -32,44 +33,46 @@ def create_student_users(rows, admin_username=None):
         project_id = users_utility.get_a_projectID(users_project_name)
         # check if user is an admin
         if project_id:
-            print('Project with id: ' + project_id + ' exists.')
+            print('create_student_users(users_project_name: {}) => found existing project with id: {}'.format(users_project_name, project_id))
         else:
             project_id = keystone.projects.create(users_project_name, 'default').id
-            print('Project '+ users_project_name + ' with id ' + project_id + ' has been created.')
+            print('create_student_users(users_project_name: {}) => created new project with id: {}'.format(users_project_name, project_id))
 
         if admin_username:
-          print('add admin', admin_username)
-          admin_user = users_utility.get_user(admin_username)
-          if users_utility.is_admin(admin_username):
-              print('Adding admin user  '+ admin_username + ' to project with id ' + project_id)
-              users_utility.add_user_to_project(users_utility.ADMIN_ROLE, project_id, admin_user)
-          else:
-              print('Will default to adding "admin" with id : ' + users_utility.ADMIN_USER.id + ' to project.')
-              users_utility.add_user_to_project(users_utility.ADMIN_ROLE, project_id, users_utility.ADMIN_USER)
+            admin_user = users_utility.get_user(admin_username)
+            is_admin = users_utility.is_admin(admin_username)
+            print('create_student_users(admin_username: {}) => is user an admin? {}'.format(admin_username, is_admin))
+            if is_admin:
+                users_utility.add_user_to_project(users_utility.ADMIN_ROLE, project_id, admin_user)
+            else:
+                users_utility.add_user_to_project(users_utility.ADMIN_ROLE, project_id, users_utility.ADMIN_USER)
+            print('create_student_users(admin_username: {}) => adding admin user to project {}'.format(admin_username, project_id))
           
         # Note: Group name must match 'Project' column name
         group_id = users_utility.get_a_groupID(users_project_name)
         # Check if group already exists
-        if group_id:
-            print('Group with id ' + group_id + ' already exists.')
-            print('\n')
-            print('Adding group to specified project')
+        has_existing_group = group_id is not None
+        print('create_student_users() => does group exist? {}'.format(username, has_existing_group))
+        if has_existing_group:
             users_utility.add_group_to_project(users_utility.STUDENT_ROLE, project_id, group_id)
         else:
             # Create the group
             group_id = keystone.groups.create(users_project_name, 'default').id
             users_utility.add_group_to_project(users_utility.STUDENT_ROLE, project_id, group_id)
+        print('create_student_users() => finished adding group: {}, to project: {}'.format(group_id, project_id))
 
         ## Adding Users to group
         # get user
         # if user does not exist, create it
         user = users_utility.get_user(username)
-        if not user:
+        does_user_exist = user is not None
+        print('create_student_users() => does username {} exist? {}'.format(username, does_user_exist))
+        if not does_user_exist:
             user = create_single_user(row, project_id)
         added_user = add_user_to_group(username, group_id, row)
+        print('create_student_users() => added username {} to group {}'.format(username, group_id))
         created_users.append(user)
-    #print all the created users 
-    pprint.pprint(created_users)
+
     return created_users
 
 
@@ -80,6 +83,7 @@ def create_single_user(row, project_id):
     *Note: setting default_project does not add the user to the project.
             User must be added to a group that is associated to that project.
     '''
+    print('create_single_user(row: {}, project_id: {})'.format(row, project_id))
     keystone = users_utility.create_keystone_client()
     username = row['Username']
     password = row['Password']
@@ -95,8 +99,8 @@ def add_user_to_group(username, group_id, row):
     user = users_utility.get_user(username)
     # check if user already exists
     if user:
-        print('Adding user: ' + username + ' to designated group with id: ' + group_id)
         users_utility.add_user_to_group(user, group_id)
+        print('add_user_to_group(username: {}, group_id: {}, row) => success'.format(username, group_id))
     else:
         raise Exception('User does not exist')
     return user

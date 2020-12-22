@@ -31,7 +31,6 @@ OS_AUTH_URL = 'OS_AUTH_URL'
 OS_USER_DOMAIN = 'OS_USER_DOMAIN_NAME'
 NOVA_API_VERSION = 2
 
-
 def env(name):
     '''
     Utility function to access environment variables
@@ -69,7 +68,6 @@ def create_nova_client(username, password, domain, project):
     Uses environment variables.
     '''
     global nova_session
-    print('create_nova_client(username, password, domain, project)', username, password, domain, project)
     username = username if username else env(OS_USERNAME)
     password = password if password else env(OS_PASSWORD)
     key = username + domain + project
@@ -135,8 +133,9 @@ def get_user(username):
     users = keystone.users.list(domain='default')
     for user in users:
         if user.name == username:
+    print('get_user(username): => found user with username: {}'.format(username))
             return user
-    print('Could not find a user with the username: ' + username)
+    print('get_user(username) => could not find user with username: {}'.format(username))
     return None
 
 
@@ -145,8 +144,10 @@ def get_role(name):
     roles = keystone.roles.list(domain='default')
     for role in roles:
         if role.name == name:
+            print('get_role(name): => found role with name: {}'.format(name))
+
             return role
-    print('Error, could not find role with name: ' + name)
+    print('get_role(name): => could not find role with name: {}'.format(name))
     return None 
 
 
@@ -172,16 +173,20 @@ def get_projects():
 def get_a_projectID(name):
     project_dict = get_projects()
     project_ID = project_dict.get(name, None)
+    print('get_a_projectID(name: {}) => id: {}'.format(name, project_ID))
     return project_ID
 
 
 def get_a_project(project_name):
-    print("\tget_a_project(project_name): {}".format(project_name))
     try:
         keystone = create_keystone_client()
         projects = list(filter(lambda p : p.name == project_name, keystone.projects.list()))
         numProjects = len(projects)
-        return projects[0]
+        if(numProjects > 0) {
+            project = projects[0]
+            print("get_a_project(project_name: {}) found project => {}".format(project))
+            return project
+        }
     except Exception as ex:
         print("unable to find project: {}, {}".format(ex, project_name))
         return None
@@ -196,6 +201,7 @@ def add_user_to_project(role, project_id, user):
     '''
     keystone = create_keystone_client()
     keystone.roles.grant(role, project=project_id, user=user)
+    print('add_user_to_project() => finished adding user to project {} with role {}'.format(project_ID, role))
 
 
 def get_groups():
@@ -212,12 +218,15 @@ def get_groups():
 def get_a_groupID(name):
     groups_dict = get_groups()
     group_ID = groups_dict.get(name, None)
+    print('get_a_groupID(name: {}) => id {}'.format(name, group_ID))
+
     return group_ID
 
 
 def add_user_to_group(user, group_id):
     keystone = create_keystone_client()
     keystone.users.add_to_group(user=user.id, group=group_id)
+    print('add_user_to_group(user, group_id: {}) => finished adding user to group'.format(group_id))
 
 
 def create_single_user(username, user_password, project_id, role):
@@ -227,6 +236,7 @@ def create_single_user(username, user_password, project_id, role):
      In order for the user to be able to sign in they must be added to a project by being
      given a role.
     '''
+    print('create_single_user(username: {}, user_password: <HIDDEN>, project_id: {}, role: {})'.format(username, project_ID, role))
     keystone = create_keystone_client()
     user = keystone.users.create(name=username, domain='default', password=user_password,
                                  enabled=True, default_project=project_id)
@@ -235,6 +245,7 @@ def create_single_user(username, user_password, project_id, role):
         add_user_to_project(role, project_id, user)
     else:
         raise Exception('Encountered an error creating user with name: ' + username)
+    print('create_single_user() => finished creating new user: {}'.format(username))
     return user
 
 
@@ -246,14 +257,16 @@ def is_admin(username):
     keystone = create_keystone_client()
     admin_project = get_a_projectID('admin')
     user = get_user(username)
+    success = false
     if user:
         roles = keystone.roles.list(user=user, project=admin_project)
         for role in roles:
             if role.name == ADMIN_ROLE.name:
-                return True
+                success = True
         else:
-            print('User exists but does not have the admin role.')
-    return False
+    
+    print('is_admin(admin: {}) => success: {}'.format(username, admin))
+    return success
 
 
 def add_group_to_project(role, project_id, group_id):
@@ -264,6 +277,7 @@ def add_group_to_project(role, project_id, group_id):
     '''
     keystone = create_keystone_client()
     keystone.roles.grant(role, project=project_id, group=group_id)
+    print('add_group_to_project(role: {}, project_id {}, group_id {}) => success'.format(role, project_id, group_id))
 
 
 def generate_hash(salt, password):

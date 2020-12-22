@@ -8,48 +8,48 @@ def create_router(domain, project, name, external_network_id, external_subnet_id
   ip_address = the ip address to attach the router to.
   subnet_id = when connecting to external services use `939dfc59-9c31-42fe-8cfa-78d2838b5b76` which is currently the external provider network's subnet id.
   '''
-  print('create_router(domain, project, name, external_network_id, subnet_id, external_subnet_id):', domain, project, external_network_id, external_subnet_id, external_ip_address, internal_subnet_id)
+  print('create_router(domain: {}, project: {}, name: {}, external_network_id: {}, subnet_id: {}, external_subnet_id: {}):'.format(domain, project, external_network_id, external_subnet_id, external_ip_address, internal_subnet_id))
   try:
-    client = users_utility.create_neutron_client(domain, project)
+    api = users_utility.create_neutron_client(domain, project)
 
-    router = find_router(client, name)
+    router = find_router(api, name)
+    does_router_exist = router is not None
+    print('create_router(name: {}) => does router exist ? {}'.format(name, does_router_exist))
     if not router:
       external_fixed_ips = [{'ip_address': external_ip_address, 'subnet_id': external_subnet_id}]
       external_gateway_info = { 'network_id': external_network_id, 'enable_snat': True, 'external_fixed_ips': external_fixed_ips}
-      router = client.create_router({'router': {'name': name, 'admin_state_up': True, 'external_gateway_info': external_gateway_info}})['router']
+      router = api.create_router({'router': {'name': name, 'admin_state_up': True, 'external_gateway_info': external_gateway_info}})['router']
 
-    link = link_to_router(client, router['id'], internal_subnet_id)
-    print('create_router: linked to subnet:', link)
+    link_to_router(api, router['id'], internal_subnet_id)
 
+    print('create_router(name: {}): finished creating router'.format(name))
     return router
   except Exception as ex:
     print("create_router: an error has occured", ex, domain, project, name, external_network_id,  external_subnet_id, external_ip_address, internal_subnet_id)
     return None
 
-
-def find_router(client, name):
+def find_router(api, name):
   '''
   name can also be an id.
   '''
-  print('find_router(client, name):', client, name)
-  routers = list(filter(lambda s : s['name'] == name or s['id'] == name, client.list_routers()['routers']))
+  print('find_router(api, name: {})'.format(name))
+  routers = list(filter(lambda s : s['name'] == name or s['id'] == name, api.list_routers()['routers']))
   numRouters = len(routers)
-
-  print('find_router: numSubnets:', numRouters)
-  if numRouters == 1:
+  does_router_exist = numRouters == 1
+  print('find_router(name: {}) => does router exist ? {}'.format(name, does_router_exist))
+  if does_router_exist:
     return routers[0]
   
   return None
 
-def link_to_router(client, router_id, subnet_id):
-  print('link_to_router(client, router_id, subnet_id)', client, router_id, subnet_id)
+def link_to_router(api, router_id, subnet_id):
+  print('link_to_router(api: <HIDDEN>, router_id: {}, subnet_id: {})', router_id, subnet_id)
   try:
     if subnet_id:
-      print('link_to_router: creating link')
-      return client.add_interface_router(router_id, {'subnet_id': subnet_id})
+      api.add_interface_router(router_id, {'subnet_id': subnet_id})
+      print('link_to_router(router_id: {}, subnet_id: {}) => created link'.format(router_id, subnet_id))
   except:
-    print('link_to_router: link already exists')
-    return None
+    print('link_to_router() => link already exists')
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()

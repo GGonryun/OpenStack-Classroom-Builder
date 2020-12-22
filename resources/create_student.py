@@ -8,7 +8,7 @@ PASSWORD = 'Password'
 ID = "ID"
 
 def create_student(ledger, student):
-  print('create_student(ledger, student):', ledger, student)
+  print('create_student(ledger <HIDDEN>, student {})'.format(student))
   project = ledger[PROJECT].name
   username = student[USERNAME]
   

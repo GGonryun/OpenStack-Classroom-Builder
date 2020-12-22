@@ -4,13 +4,13 @@ import pprint
 import users_utility
 
 def create_domain(domain_id):
-  print('\tcreate_domain(domain_id): {}'.format(domain_id))
+  print('create_domain(domain_id): {}'.format(domain_id))
   
   client = users_utility.create_keystone_client()
   domains = client.domains.list(name=domain_id)
   numDomains = len(domains)
 
-  print('\tcreate_domain: numDomains: {}'.format(numDomains))
+  print('create_domain() => numDomains: {}'.format(numDomains))
   if(numDomains == 0):
     return client.domains.create(domain_id, enabled=true)
   elif(numDomains == 1):

@@ -18,23 +18,24 @@ import users_utility
 # note: the argument comes right after the flag command.
 
 def create_admin_user(username):
-    created_admin = {}
+    print('create_admin_user(username): {}'.format(username))
     # check if admin user already exists
     admin_exists = users_utility.get_user(username)
+    print('create_admin_user() => admin_exists: {}'.format(admin_exists))
     if admin_exists:
-        print('A user with the username ' + username + ' already exists.')
+        print('create_admin_user() => An admin user with the username ' + username + ' already exists.')
     else:
         # create an authenticated keystone client
         keystone = users_utility.create_keystone_client()
         user_password = users_utility.generate_user_password(username)
         admin_project_name = 'admin'
         admin_project_id = users_utility.get_a_projectID(admin_project_name)
-        print('...Creating Admin User...')
         user = users_utility.create_single_user(username, user_password, admin_project_id, users_utility.ADMIN_ROLE)
+        print('create_admin_user() => does user exist? {}'.format(user))
         if user:
-            created_admin['username'] = username
-            created_admin['password'] = user_password
-            pprint.pprint(created_admin)
+            print('create_admin_user() => succesfully created admin => username, password: {}'.format(username, user_password))
+        else
+            print('create_admin_user() => unable to create admin user => username, password: {}'.format(username, user_password))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

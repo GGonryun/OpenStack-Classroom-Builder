@@ -23,39 +23,38 @@ import users_utility
 
 
 def create_project(project_name, username, user_role):
-    created_project = {}
+    print('create_project(project_name: {}, username: {}, user_role: {})'.format(project_name, username, user_role))
     keystone = users_utility.create_keystone_client()
-    project_name = project_name
+
     # Do a quick check if project exists
     project = users_utility.get_a_project(project_name)
-    project_id = project.id if project != None else None
-
-    print('searching for project and found: {}'.format(project))
-    if project:
-        print('Project with name: ' + project_name + ' and id: ' + project_id + ' already exists. ...Continuing Script...')
-    else:
-        print("...Creating Project...")
+    does_project_exist = project is not None
+    print('create_project(project_name: {}) => does project exist ? {}'.format(does_project_exist))
+    if not does_project_exist:
         project = keystone.projects.create(project_name, 'default')
-        project_id = project.id
+    print('create_project(project_name: {}) => using project: {}'.format(project))
 
     # check if role exists and create it if it doesn't
     role = users_utility.get_role(user_role)
-    if role:
-        # Do nothing this is great
-        print(role)
-    else:
-        print('Creating new role with the name: ' + user_role)
+    does_role_exist = role is not None
+    print('create_project(user_role: {}) => does role exist ? {}'.format(project_name, user_role, does_role_exist))
+    if not does_role_exist:
         role = keystone.roles.create(name=user_role)
+    print('create_project(user_role: {}) => using role {}'.format(user_role, does_role_exist))
     # add user to project
     user = users_utility.get_user(username)
-    if user:
+
+
+    does_user_exist = user is not None
+    print('create_project(username: {}) => does user exist ? {}'.format(username, does_user_exist))
+    if does_user_exist:
+        project_id = project.id if project != None else None
         users_utility.add_user_to_project(role, project_id, user)
     else:
-        print("Creating user with the username: " + username)
         user_password = users_utility.generate_user_password(username)
         users_utility.create_single_user(username, user_password, project_id, role)
-        print("...Adding user to project ...")
-
+        
+    print('create_project(user_role: {}) => added user to project {} with id: {}'.format(username, project_name, project_id))
     return project
 
 

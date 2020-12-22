@@ -3,13 +3,11 @@ Project:
   Name: Test
 Networks:
   - Name: Test
-    Provider: Cloud-Provider
+    Provider: provider
     External: True
     Subnet: 10.10.10.0/24
 Students:
   - Test,Test,Test
 Machines:
   PerProject:
-    - ProjectServer,2,CentOS 7,large,Test
-    - WindowsWithPassword,2,Windows-10-Pro,windows,Test
-    - WindowsCloudWithPassword,2,WindowsServer2016,xhuge,Test
+    - ProjectServer,2,cirros,m1.nano,Test
